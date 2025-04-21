@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: "Hyperion AI | Intelligent Automation Solutions",
     description:
       "Transform your business with cutting-edge AI automation solutions",
-    images: ["/images/twitter-image.jpg"],
+    images: ["/images/og-image.jpg"],
     creator: "@HyperionAI",
   },
 };
