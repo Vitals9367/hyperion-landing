@@ -1,80 +1,167 @@
-import Link from "next/link";
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+"use client";
 
-const navigationLinks = [
-  { href: "#services", label: "Services" },
-  { href: "#process", label: "Process" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const navigation = [
+  { name: "Services", href: "#services" },
+  { name: "Contact", href: "#contact" },
 ] as const;
 
 export function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-10">
-          <Link href="/" className="group flex items-center">
-            <span className="text-xl font-bold text-black transition-colors duration-300 group-hover:text-emerald-500">
+    <header className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-sm">
+      <nav
+        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+      >
+        <div className="flex lg:flex-1">
+          <Link href="/" className="-m-1.5 p-1.5">
+            <span className="bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-xl font-bold text-transparent">
               Hyperion
             </span>
-            <span className="ml-1 rounded bg-emerald-500 px-1.5 py-0.5 text-xs font-medium text-white transition-colors duration-300 group-hover:bg-emerald-600">
-              AI
-            </span>
           </Link>
-
-          <nav className="hidden items-center gap-8 md:flex">
-            {navigationLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="relative text-sm text-gray-600 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-500 after:transition-all after:duration-300 hover:text-emerald-500 hover:after:w-full"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* Mobile menu button */}
+        <div className="flex lg:hidden">
+          <button
+            type="button"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 hover:bg-gray-100"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <Menu className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+
+        {/* Desktop navigation */}
+        <div className="hidden lg:flex lg:gap-x-12">
+          {navigation.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-sm leading-6 font-semibold text-gray-900 transition-colors hover:text-emerald-600"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Button
             asChild
-            className="hidden h-9 rounded-full bg-emerald-500 px-5 py-0 text-xs font-medium transition-all duration-300 hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/20 md:flex"
+            className="bg-emerald-600 text-white hover:bg-emerald-700"
           >
-            <Link href="#contact">Book Demo</Link>
+            <Link href="#contact">Get Started</Link>
           </Button>
-
-          {/* Mobile menu */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button className="h-8 w-8 p-0 md:hidden">
-                <Menu className="h-4 w-4" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] sm:w-[350px]">
-              <div className="mt-8 flex flex-col gap-6">
-                {navigationLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-base transition-colors duration-300 hover:text-emerald-500"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <Button
-                  asChild
-                  className="mt-4 w-full rounded-full bg-emerald-500 text-sm transition-all duration-300 hover:bg-emerald-600"
-                >
-                  <Link href="#contact">Book Demo</Link>
-                </Button>
-              </div>
-            </SheetContent>
-          </Sheet>
         </div>
-      </div>
+      </nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0 z-50 bg-black/25 backdrop-blur-sm lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Menu panel */}
+            <motion.div
+              className="fixed inset-y-0 right-0 z-50 flex h-[100dvh] w-full flex-col bg-white sm:max-w-sm lg:hidden"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            >
+              {/* Header */}
+              <div className="flex h-16 items-center justify-between border-b border-gray-100 px-6">
+                <Link
+                  href="/"
+                  className="-m-1.5 p-1.5"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-xl font-bold text-transparent">
+                    Hyperion
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  className="-m-2.5 rounded-md p-2.5 text-gray-700 hover:bg-gray-100"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="sr-only">Close menu</span>
+                  <X className="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-1 flex-col px-6 pt-6">
+                <nav className="flex flex-col space-y-2">
+                  {navigation.map((item) => (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="block rounded-lg px-4 py-3 text-base font-semibold text-gray-900 transition-colors hover:bg-gray-100 hover:text-emerald-600"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Footer */}
+              <div className="border-t border-gray-100 p-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <Button
+                    asChild
+                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                  >
+                    <Link
+                      href="#contact"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Get Started
+                    </Link>
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/sections/hero";
 import { BusinessPainSection } from "@/components/sections/business-pain";
 import { ProcessSection } from "@/components/sections/process";
