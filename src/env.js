@@ -11,8 +11,9 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    SMTP_USER: z.string(),
-    SMTP_PASSWORD: z.string(),
+    N8N_WEBHOOK_URL: z.string(),
+    N8N_USERNAME: z.string(),
+    N8N_PASSWORD: z.string(),
   },
 
   /**
@@ -31,8 +32,9 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    SMTP_USER: process.env.SMTP_USER,
-    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+    N8N_WEBHOOK_URL: process.env.N8N_WEBHOOK_URL,
+    N8N_USERNAME: process.env.N8N_USERNAME,
+    N8N_PASSWORD: process.env.N8N_PASSWORD,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

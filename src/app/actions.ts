@@ -1,7 +1,6 @@
 "use server";
 
 import { env } from "@/env";
-import nodemailer from "nodemailer";
 import { z } from "zod";
 
 // Contact form schema
@@ -19,49 +18,39 @@ export async function sendContactEmail(data: ContactFormData) {
     // Validate input
     const validatedData = contactSchema.parse(data);
 
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: env.SMTP_USER,
-        pass: env.SMTP_PASSWORD,
-      },
-    });
-
-    // Email content
-    const mailOptions = {
-      from: env.SMTP_USER,
-      to: "vitalijus@hyperionaiagency.com",
-      subject: `New Contact Form Submission from ${validatedData.name} - ${validatedData.company}`,
-      text: `
-Name: ${validatedData.name}
-Email: ${validatedData.email}
-Company: ${validatedData.company}
-
-Message:
-${validatedData.message}
-      `,
-      html: `
-<h2>New Contact Form Submission</h2>
-<p><strong>Name:</strong> ${validatedData.name}</p>
-<p><strong>Email:</strong> ${validatedData.email}</p>
-<p><strong>Company:</strong> ${validatedData.company}</p>
-<h3>Message:</h3>
-<p>${validatedData.message.replace(/\n/g, "<br>")}</p>
-      `,
+    // Prepare the payload for n8n webhook
+    const payload = {
+      name: validatedData.name,
+      email: validatedData.email,
+      company: validatedData.company,
+      request: validatedData.message, // mapping message to request as per required format
     };
 
-    // Send email
-    await transporter.sendMail(mailOptions);
+    // Create Basic Auth header
+    const basicAuth = Buffer.from(
+      `${env.N8N_USERNAME}:${env.N8N_PASSWORD}`,
+    ).toString("base64");
+
+    // Send to n8n webhook
+    const response = await fetch(env.N8N_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${basicAuth}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to send data to webhook");
+    }
 
     return { success: true };
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Error sending data:", error);
     if (error instanceof z.ZodError) {
       return { success: false, error: "Invalid form data" };
     }
-    return { success: false, error: "Failed to send email" };
+    return { success: false, error: "Failed to send data" };
   }
 }
