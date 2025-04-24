@@ -22,21 +22,14 @@ export async function sendContactEmail(data: ContactFormData) {
     const payload = {
       name: validatedData.name,
       email: validatedData.email,
-      company: validatedData.company,
-      request: validatedData.message, // mapping message to request as per required format
+      company_name: validatedData.company,
+      request: validatedData.message,
     };
-
-    // Create Basic Auth header
-    const basicAuth = Buffer.from(
-      `${env.N8N_USERNAME}:${env.N8N_PASSWORD}`,
-    ).toString("base64");
-
     // Send to n8n webhook
-    const response = await fetch(env.N8N_WEBHOOK_URL, {
+    const response = await fetch(env.FORM_WEBHOOK_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Basic ${basicAuth}`,
       },
       body: JSON.stringify(payload),
     });
