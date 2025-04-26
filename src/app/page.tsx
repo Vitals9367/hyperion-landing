@@ -4,10 +4,9 @@ import { useRef } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/sections/hero";
-import { BusinessPainSection } from "@/components/sections/business-pain";
-import { ProcessSection } from "@/components/sections/process";
-import { ContactSection } from "@/components/sections/contact";
 import ServicesSection from "@/components/sections/services";
+import { ContactSection } from "@/components/sections/contact";
+import BusinessPainSection from "@/components/sections/business-pain";
 
 export default function Home() {
   const servicesRef = useRef<HTMLDivElement>(null);
@@ -18,19 +17,24 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen w-full bg-white">
+      <main className="bg-background relative min-h-screen w-full">
         {/* Background gradient */}
         <div className="pointer-events-none absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_#dcfce7_0%,_transparent_35%)] opacity-40" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_60%,_#dcfce7_0%,_transparent_30%)] opacity-30" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--primary)_0%,_transparent_35%)] opacity-5" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_60%,_var(--secondary)_0%,_transparent_30%)] opacity-5" />
         </div>
 
         {/* Content */}
         <div className="relative z-10">
-          <HeroSection />
-          <BusinessPainSection />
+          <div className="mb-32">
+            <HeroSection />
+          </div>
 
-          <div ref={servicesRef} id="services">
+          <div className="mb-32">
+            <BusinessPainSection />
+          </div>
+
+          <div ref={servicesRef} id="services" className="">
             <ServicesSection />
           </div>
 

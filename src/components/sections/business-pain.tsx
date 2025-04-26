@@ -1,129 +1,99 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  AlertCircle,
-  ArrowRight,
-  CheckCircle2,
-  ArrowUpRight,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { AlertTriangle, Clock, Users } from "lucide-react";
 
 const painPoints = [
   {
-    title: "Manual Processes Taking Too Long?",
+    icon: AlertTriangle,
+    title: "Leads Falling Through the Cracks",
     description:
-      "Repetitive tasks can be time-consuming and prone to human error, impacting your team's ability to focus on higher-value work.",
-    solution:
-      "We can help identify which processes are suitable for automation to improve efficiency.",
+      "Manual follow-ups mean missed opportunities and lost revenue potential.",
   },
   {
-    title: "Data-Driven Decisions?",
+    icon: Clock,
+    title: "Client Onboarding Chaos",
     description:
-      "Making informed decisions can be challenging when dealing with large amounts of business data using traditional analysis methods.",
-    solution:
-      "Our analytics tools can help organize and analyze your data to support better decision-making.",
+      "Inconsistent processes leading to delays and poor first impressions.",
   },
   {
-    title: "Customer Service Scalability?",
+    icon: Users,
+    title: "Manual Follow-ups Draining Your Team",
     description:
-      "Growing businesses often struggle to maintain consistent customer service quality while managing increasing inquiry volumes.",
-    solution:
-      "We can implement AI assistants to help handle common customer queries, supporting your existing service team.",
+      "Hours spent on repetitive tasks instead of strategic growth activities.",
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
-export function BusinessPainSection() {
+export default function BusinessPainSection() {
   return (
-    <section className="relative overflow-hidden bg-gray-50 py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
+    <section className="relative w-full overflow-hidden bg-white py-24 lg:py-32">
+      {/* Background Effects */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(218,165,32,0.1)_1px,transparent_1px),linear-gradient(to_right,rgba(218,165,32,0.1)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,white_50%,transparent_80%)] bg-[size:64px_64px]" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+          {/* Left Column - Content */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="relative"
           >
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Common Challenges in Modern Business
-            </h2>
-            <p className="mx-auto mt-4 max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Identify the obstacles holding your business back and discover how
-              our solutions can help overcome them.
-            </p>
+            <div>
+              <div className="bg-gradient-gold/[0.08] ring-primary/10 mb-8 inline-flex items-center rounded-full px-6 py-2.5 shadow-sm ring-1">
+                <span className="bg-gradient-gold bg-clip-text text-sm font-semibold text-transparent">
+                  Common Agency Challenges
+                </span>
+              </div>
+              <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl md:text-5xl">
+                Broken Processes Are{" "}
+                <span className="text-gradient bg-clip-text">
+                  Killing Your Agency Deals
+                </span>
+              </h2>
+              <p className="mt-8 max-w-2xl text-lg leading-relaxed text-zinc-600">
+                Don't let manual tasks and inconsistent processes hold back your
+                agency's growth potential.
+              </p>
+
+              {/* Decorative line */}
+              <div className="bg-gradient-gold mt-12 h-1 w-24 rounded-full opacity-80" />
+            </div>
           </motion.div>
 
+          {/* Right Column - Pain Points */}
           <motion.div
-            className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-12"
           >
             {painPoints.map((point, index) => (
               <motion.div
                 key={index}
-                variants={itemVariants}
-                className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/[0.1]"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group flex items-start gap-6"
               >
-                <div className="absolute -top-12 -right-12 h-24 w-24 rounded-full bg-emerald-500/10 transition-transform duration-300 group-hover:scale-150" />
-                <div className="absolute top-4 right-4 rounded-full bg-red-50 p-2 text-red-600 ring-4 ring-red-50">
-                  <AlertCircle className="h-5 w-5" />
+                <div className="bg-gradient-gold inline-flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl shadow-md">
+                  <point.icon className="h-7 w-7 text-black" />
                 </div>
-
-                <div className="relative">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                <div>
+                  <h3 className="mb-3 text-xl font-semibold text-zinc-900">
                     {point.title}
                   </h3>
-                  <p className="mt-4 text-gray-600">{point.description}</p>
-
-                  <div className="mt-6 flex items-start gap-2 text-emerald-600">
-                    <CheckCircle2 className="mt-1 h-5 w-5 flex-shrink-0" />
-                    <p className="font-medium">{point.solution}</p>
-                  </div>
+                  <p className="text-base leading-relaxed text-zinc-600">
+                    {point.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-12"
-          >
-            <Button
-              asChild
-              className="group bg-emerald-600 text-white hover:bg-emerald-700"
-            >
-              <Link href="#services">
-                Explore Our Solutions
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
           </motion.div>
         </div>
       </div>

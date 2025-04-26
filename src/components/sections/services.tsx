@@ -1,99 +1,84 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Bot, Workflow, LineChart } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Sparkles, Workflow, Users } from "lucide-react";
 
 const services = [
   {
-    title: "AI Process Automation",
+    icon: Sparkles,
+    title: "Smart Lead Generation",
     description:
-      "Transform manual workflows into intelligent automated processes. Our AI solutions learn and adapt to your business needs, reducing errors and increasing efficiency.",
+      "Double your qualified leads while cutting acquisition costs in half. Our AI identifies and engages your ideal clients 24/7.",
+  },
+  {
     icon: Workflow,
+    title: "Automated Sales Pipelines",
+    description:
+      "Convert 40% more leads into clients with personalized follow-ups and perfectly timed touchpoints that never miss an opportunity.",
   },
   {
-    title: "Intelligent Virtual Assistants",
+    icon: Users,
+    title: "Seamless Client Management",
     description:
-      "Deploy AI-powered virtual assistants that handle customer inquiries, schedule meetings, and manage routine tasks with human-like understanding.",
-    icon: Bot,
-  },
-  {
-    title: "Predictive Analytics",
-    description:
-      "Leverage machine learning algorithms to analyze trends, forecast outcomes, and make data-driven decisions with unprecedented accuracy.",
-    icon: LineChart,
+      "Boost client satisfaction by 60% with automated onboarding, instant responses, and proactive project updates that wow your clients.",
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-interface ServicesProps {
-  className?: string;
-}
-
-export default function Services() {
+export default function ServicesSection() {
   return (
-    <section className="bg-background py-24">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="mx-auto mb-16 max-w-3xl text-center">
-          <h2 className="mb-4 text-4xl font-bold tracking-tight">
-            Our Services
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            We offer a comprehensive suite of solutions designed to transform
-            your business operations and drive growth through technology.
-          </p>
-        </div>
+    <section className="relative w-full overflow-hidden bg-zinc-950 py-32 lg:py-40">
+      {/* Background Effects */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(218,165,32,0.1),rgba(0,0,0,0))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(30,86,49,0.15),rgba(0,0,0,0))]" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
         >
+          <div className="border-primary/10 bg-primary/5 mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-2">
+            <span className="text-gradient text-sm font-medium">
+              Our Services
+            </span>
+          </div>
+          <h2 className="mx-auto max-w-4xl text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+            Introducing{" "}
+            <span className="text-gradient">Next-Gen Agency Automation</span>
+          </h2>
+          <p className="mx-auto mt-8 max-w-2xl text-lg text-zinc-400 sm:text-xl">
+            Your agency's invisible engine for growth and efficiency.
+          </p>
+        </motion.div>
+
+        {/* Services */}
+        <div className="mt-32 grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <motion.div
               key={index}
-              variants={itemVariants}
-              className="bg-card text-card-foreground relative rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              whileHover={{ scale: 1.02 }}
+              className="group relative rounded-2xl border border-zinc-800 bg-black/50 p-8 backdrop-blur-sm"
             >
-              <div className="mb-4 flex items-center">
-                <div className="bg-primary/10 rounded-lg p-2">
-                  <service.icon className="text-primary h-6 w-6" />
-                </div>
+              <div className="bg-gradient-gold mb-8 inline-flex h-16 w-16 items-center justify-center rounded-xl">
+                <service.icon className="h-8 w-8 text-black" />
               </div>
-              <h3 className="mb-2 text-xl font-semibold">{service.title}</h3>
-              <p className="text-muted-foreground">{service.description}</p>
+              <h3 className="mb-4 text-2xl font-semibold text-white">
+                {service.title}
+              </h3>
+              <p className="text-base leading-relaxed text-zinc-400">
+                {service.description}
+              </p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

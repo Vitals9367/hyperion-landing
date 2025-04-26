@@ -1,88 +1,130 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { InteractiveGrid } from "@/components/ui/interactive-grid";
 
 export function HeroSection() {
   return (
-    <div className="mx-auto max-w-5xl px-4 pt-32 pb-20 sm:px-6 md:pt-40 md:pb-24">
-      <div className="relative">
-        {/* Decorative elements */}
-        <div className="absolute -top-8 left-1/2 h-px w-1/4 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-        <div className="absolute -top-8 left-1/2 h-16 w-px -translate-x-1/2 bg-gradient-to-b from-emerald-500/20 to-transparent" />
-
-        {/* Main content */}
-        <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <h1 className="relative mx-auto max-w-4xl bg-gradient-to-b from-gray-900 to-gray-600 bg-clip-text text-center text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl">
-              Transform Your Business with Intelligent Automation
-            </h1>
-
-            <p className="mx-auto mt-8 max-w-2xl text-lg text-gray-600">
-              Harness the power of AI to streamline operations, boost
-              efficiency, and drive innovation. Our intelligent automation
-              solutions adapt to your unique business needs.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-10 flex items-center justify-center gap-6"
-          >
-            <Button
-              asChild
-              className="h-12 rounded-full bg-black px-8 text-sm font-medium text-white transition-all hover:bg-gray-900"
-            >
-              <Link href="#contact">Schedule Demo</Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="h-12 rounded-full border-gray-200 px-8 text-sm font-medium text-gray-600 transition-all hover:bg-gray-50 hover:text-gray-900"
-            >
-              <Link href="#services">View Services</Link>
-            </Button>
-          </motion.div>
-
-          {/* Stats */}
-          {/* <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4"
-          >
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">40%</div>
-              <div className="mt-1 text-sm text-gray-600">
-                Efficiency Increase
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">500+</div>
-              <div className="mt-1 text-sm text-gray-600">
-                Clients Worldwide
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">95%</div>
-              <div className="mt-1 text-sm text-gray-600">
-                Client Satisfaction
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900">24/7</div>
-              <div className="mt-1 text-sm text-gray-600">AI Support</div>
-            </div>
-          </motion.div> */}
-        </div>
+    <section className="relative min-h-screen w-full overflow-hidden bg-black">
+      {/* Background Effects */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <InteractiveGrid />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(218,165,32,0.1),rgba(0,0,0,0))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(30,86,49,0.15),rgba(0,0,0,0))]" />
       </div>
-    </div>
+
+      {/* Content */}
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-screen-xl flex-col items-center justify-center px-4 py-24 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="border-primary/10 bg-primary/5 mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 backdrop-blur-sm"
+          >
+            <span className="text-gradient relative text-sm font-medium">
+              Transform Your Agency's Growth
+              <div className="animate-shimmer absolute -inset-px rounded-full bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%]" />
+            </span>
+          </motion.div>
+
+          <h1 className="mx-auto max-w-4xl text-center text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="text-gradient relative inline-block"
+            >
+              80%+ of Your Tasks
+              <div className="animate-shimmer absolute -inset-1 hidden rounded-xl bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%] lg:block" />
+            </motion.span>
+            <br />
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              Automated with AI
+            </motion.span>
+          </h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mx-auto mt-8 max-w-2xl text-center text-lg text-zinc-400 sm:text-xl"
+          >
+            Our AI-powered systems handle your outreach, sales, and client
+            management, so you can focus on what truly matters - growing your
+            business.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6"
+          >
+            <Link href="#contact">
+              <Button
+                size="lg"
+                className="group bg-gradient-gold hover:shadow-primary/20 relative h-12 overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                <span className="relative z-10 flex items-center text-base font-semibold">
+                  Get Started
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+                <div className="absolute inset-0 z-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
+              </Button>
+            </Link>
+            <Link href="#services">
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-12 rounded-full border-zinc-800 px-8 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-white/5"
+              >
+                View Services
+              </Button>
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="mt-24 grid w-full max-w-4xl grid-cols-1 gap-8 rounded-2xl border border-zinc-800/50 bg-black/30 p-8 backdrop-blur-sm sm:grid-cols-3"
+        >
+          {[
+            { value: "40%", label: "Faster Lead Response" },
+            { value: "2x", label: "Client Onboarding" },
+            { value: "10h+", label: "Saved Weekly" },
+          ].map((stat, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.02 }}
+              className="group relative text-center"
+            >
+              <div className="text-gradient relative mb-2 text-4xl font-bold sm:text-5xl">
+                {stat.value}
+                <div className="animate-shimmer absolute -inset-2 hidden rounded-xl bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%] group-hover:block" />
+              </div>
+              <div className="text-sm font-medium text-zinc-400">
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
   );
 }
