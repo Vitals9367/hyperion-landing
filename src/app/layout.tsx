@@ -32,21 +32,12 @@ export const metadata: Metadata = {
     title: "Hyperion AI | Intelligent Automation Solutions",
     description:
       "Transform your business with cutting-edge AI automation solutions",
-    images: [
-      {
-        url: "/images/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Hyperion AI - Intelligent Automation Solutions",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Hyperion AI | Intelligent Automation Solutions",
     description:
       "Transform your business with cutting-edge AI automation solutions",
-    images: ["/images/og-image.jpg"],
     creator: "@HyperionAI",
   },
 };
