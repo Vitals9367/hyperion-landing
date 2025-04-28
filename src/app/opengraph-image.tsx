@@ -1,6 +1,5 @@
+import { env } from "@/env";
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 
 export const runtime = "edge";
 export const alt = "Hyperion - Automate Your Agency Growth";
@@ -11,10 +10,6 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  const interRegular = await readFile(
-    join(process.cwd(), "public/fonts/Inter-Regular.ttf"),
-  );
-
   return new ImageResponse(
     (
       <div
@@ -36,22 +31,41 @@ export default async function Image() {
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "radial-gradient(circle at 50% 50%, rgba(218,165,32,0.1), rgba(0,0,0,0))",
             zIndex: 0,
+            display: "flex",
           }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(circle at 80% 50%, rgba(30,86,49,0.15), rgba(0,0,0,0))",
-            zIndex: 0,
-          }}
-        />
+        >
+          {/* Grid Pattern */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(rgba(255,215,0,0.05) 1px, transparent 1px), linear-gradient(to right, rgba(255,215,0,0.05) 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
+              maskImage:
+                "radial-gradient(ellipse at center, black 60%, transparent 100%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(circle at 50% 50%, rgba(218,165,32,0.1), rgba(0,0,0,0))",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(circle at 80% 50%, rgba(30,86,49,0.15), rgba(0,0,0,0))",
+            }}
+          />
+        </div>
 
-        {/* Content Container */}
+        {/* Content */}
         <div
           style={{
             display: "flex",
@@ -61,6 +75,7 @@ export default async function Image() {
             zIndex: 1,
             padding: "48px",
             textAlign: "center",
+            maxWidth: "800px",
           }}
         >
           {/* Badge */}
@@ -73,6 +88,7 @@ export default async function Image() {
               padding: "8px 16px",
               borderRadius: "9999px",
               marginBottom: "24px",
+              backdropFilter: "blur(8px)",
             }}
           >
             <span
@@ -95,15 +111,20 @@ export default async function Image() {
               flexDirection: "column",
               gap: "16px",
               maxWidth: "800px",
+              alignItems: "center",
             }}
           >
             <h1
               style={{
+                display: "flex",
+                flexDirection: "column",
                 fontSize: 72,
-                fontWeight: 800,
+                fontWeight: 900,
                 color: "white",
                 lineHeight: 1.1,
                 margin: 0,
+                textAlign: "center",
+                letterSpacing: "-0.02em",
               }}
             >
               <span
@@ -111,12 +132,13 @@ export default async function Image() {
                   background: "linear-gradient(to right, #eab308, #22c55e)",
                   backgroundClip: "text",
                   color: "transparent",
+                  fontWeight: 900,
                 }}
               >
                 80%+ of Your Tasks
               </span>
               <br />
-              Automated with AI
+              <span style={{ fontWeight: 900 }}>Automated with AI</span>
             </h1>
             <p
               style={{
@@ -124,6 +146,8 @@ export default async function Image() {
                 color: "rgb(161, 161, 170)",
                 margin: "0",
                 marginTop: "16px",
+                textAlign: "center",
+                maxWidth: "600px",
               }}
             >
               Our AI-powered systems handle your outreach, sales, and client
@@ -141,6 +165,7 @@ export default async function Image() {
               background: "rgba(0,0,0,0.3)",
               borderRadius: "16px",
               border: "1px solid rgba(255,255,255,0.1)",
+              backdropFilter: "blur(8px)",
             }}
           >
             {[
@@ -184,14 +209,6 @@ export default async function Image() {
     ),
     {
       ...size,
-      fonts: [
-        {
-          name: "Inter",
-          data: interRegular,
-          style: "normal",
-          weight: 400,
-        },
-      ],
     },
   );
 }
