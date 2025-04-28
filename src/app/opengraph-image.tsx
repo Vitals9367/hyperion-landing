@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export const runtime = "edge";
 export const alt = "Hyperion - Automate Your Agency Growth";
@@ -9,6 +11,10 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
+  const interRegular = await readFile(
+    join(process.cwd(), "public/fonts/Inter-Regular.ttf"),
+  );
+
   return new ImageResponse(
     (
       <div
@@ -181,12 +187,9 @@ export default async function Image() {
       fonts: [
         {
           name: "Inter",
-          data: await fetch(
-            new URL(
-              "https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuBWYAZ9hiA.woff2",
-              "https://fonts.gstatic.com",
-            ),
-          ).then((res) => res.arrayBuffer()),
+          data: interRegular,
+          style: "normal",
+          weight: 400,
         },
       ],
     },
