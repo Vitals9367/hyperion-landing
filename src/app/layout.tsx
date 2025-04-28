@@ -32,6 +32,13 @@ export const metadata: Metadata = {
     title: "Hyperion AI | Intelligent Automation Solutions",
     description:
       "Transform your business with cutting-edge AI automation solutions",
+    images: [
+      {
+        url: "og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -39,6 +46,13 @@ export const metadata: Metadata = {
     description:
       "Transform your business with cutting-edge AI automation solutions",
     creator: "@HyperionAI",
+    images: [
+      {
+        url: "og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 
