@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import { Toaster } from "sonner";
+import PostHogPageView from "@/components/PostHogPageView";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -69,6 +70,7 @@ export default function RootLayout({
           "min-h-screen bg-white font-sans antialiased",
         )}
       >
+        <PostHogPageView />
         {children}
         <Toaster />
       </body>
