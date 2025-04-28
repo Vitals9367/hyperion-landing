@@ -4,14 +4,15 @@ import { useRef } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/sections/hero";
-import ServicesSection from "@/components/sections/services";
 import { ContactSection } from "@/components/sections/contact";
+import { FounderSection } from "@/components/sections/founder";
+import { AboutSection } from "@/components/sections/about";
+import ServicesSection from "@/components/sections/services";
 import BusinessPainSection from "@/components/sections/business-pain";
 
 export default function Home() {
   const servicesRef = useRef<HTMLDivElement>(null);
-  const processRef = useRef<HTMLDivElement>(null);
-  const aboutRef = useRef<HTMLDivElement>(null);
+  const founderRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
 
   return (

@@ -1,102 +1,115 @@
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { Linkedin, Twitter, Github } from "lucide-react";
-import type { SectionProps } from "@/types";
+"use client";
 
-export function AboutSection({ isVisible }: SectionProps) {
+import { motion } from "framer-motion";
+import { Brain, Zap, Shield, Users } from "lucide-react";
+
+const features = [
+  {
+    name: "Advanced AI",
+    description:
+      "State-of-the-art machine learning models that understand and adapt to your business needs.",
+    icon: Brain,
+  },
+  {
+    name: "Lightning Fast",
+    description:
+      "Optimized performance that delivers results in milliseconds, not minutes.",
+    icon: Zap,
+  },
+  {
+    name: "Enterprise Security",
+    description:
+      "Bank-grade encryption and security protocols to protect your data.",
+    icon: Shield,
+  },
+  {
+    name: "Team Collaboration",
+    description:
+      "Built-in tools for seamless team collaboration and workflow management.",
+    icon: Users,
+  },
+];
+
+export function AboutSection() {
   return (
-    <section
-      className="relative overflow-hidden bg-black py-20 text-white md:py-24"
-      id="about"
-    >
-      <div className="absolute top-0 right-0 -mr-32 h-full w-1/3 rounded-full bg-emerald-500/10 blur-3xl"></div>
-      <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+    <section className="relative w-full overflow-hidden bg-black py-24 lg:py-32">
+      {/* Background Effects */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,215,0,0.05)_1px,transparent_1px),linear-gradient(to_right,rgba(255,215,0,0.05)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_100%)] bg-[size:32px_32px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(218,165,32,0.1),rgba(0,0,0,0))]" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isVisible ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="mb-4 inline-block rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-medium text-emerald-400">
-              Meet the Founder
+            <div className="bg-gradient-gold/[0.08] ring-primary/10 mb-8 inline-flex items-center rounded-full px-6 py-2.5 shadow-sm ring-1">
+              <span className="bg-gradient-gold bg-clip-text text-sm font-semibold text-transparent">
+                About Hyperion AI
+              </span>
             </div>
-            <h2 className="mb-6 text-2xl font-bold md:text-3xl">
-              Vitalijus Majorovas
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+              Transforming Business Through AI
             </h2>
-            <p className="mb-6 text-gray-300">
-              With over 15 years of experience in AI and automation, Vitalijus
-              has helped hundreds of businesses transform their operations
-              through intelligent technology solutions.
+            <p className="mt-6 text-lg leading-8 text-zinc-400">
+              We're on a mission to democratize AI technology and make it
+              accessible to businesses of all sizes. Our platform combines
+              cutting-edge artificial intelligence with intuitive design to help
+              you automate, optimize, and innovate.
             </p>
-            <p className="mb-6 text-gray-300">
-              After leading AI initiatives at several Fortune 500 companies,
-              Vitalijus founded Hyperion AI with a mission to make advanced
-              automation accessible to businesses of all sizes.
-            </p>
-            <motion.blockquote
-              className="mb-6 border-l-2 border-emerald-500 pl-4 text-gray-400 italic"
-              initial={{ opacity: 0, x: -10 }}
-              animate={isVisible ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              "I believe that AI should work for people, not the other way
-              around. Our goal is to create solutions that amplify human
-              potential and create more meaningful work."
-            </motion.blockquote>
-            <div className="flex gap-4">
-              <motion.a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 transition-colors duration-300 hover:text-emerald-400"
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Linkedin className="h-5 w-5" />
-              </motion.a>
-              <motion.a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 transition-colors duration-300 hover:text-emerald-400"
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Twitter className="h-5 w-5" />
-              </motion.a>
-              <motion.a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 transition-colors duration-300 hover:text-emerald-400"
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Github className="h-5 w-5" />
-              </motion.a>
-            </div>
-          </motion.div>
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isVisible ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
-            <motion.div
-              className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-emerald-500 to-emerald-700 opacity-20 blur"
-              animate={{ opacity: [0.2, 0.3, 0.2] }}
-              transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
-            ></motion.div>
-            <div className="relative aspect-[3/4] overflow-hidden rounded-xl border border-gray-800">
-              <Image
-                src="/images/founder.jpg"
-                alt="Vitalijus Majorovas - Founder of Hyperion AI"
-                fill
-                className="object-cover"
-              />
-            </div>
           </motion.div>
         </div>
+
+        <motion.div
+          className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+            {features.map((feature) => (
+              <motion.div
+                key={feature.name}
+                className="flex flex-col"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <dt className="flex items-center gap-x-3 text-base leading-7 font-semibold text-white">
+                  <feature.icon
+                    className="h-5 w-5 flex-none text-yellow-500"
+                    aria-hidden="true"
+                  />
+                  {feature.name}
+                </dt>
+                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-zinc-400">
+                  <p className="flex-auto">{feature.description}</p>
+                </dd>
+              </motion.div>
+            ))}
+          </dl>
+        </motion.div>
+
+        <motion.div
+          className="mt-16 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <a
+            href="#contact"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-500 to-green-500 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
+          >
+            Get Started
+          </a>
+        </motion.div>
       </div>
     </section>
   );
