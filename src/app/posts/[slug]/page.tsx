@@ -31,7 +31,7 @@ export default async function PostPage({
       <main className="flex min-h-screen flex-col bg-black">
         {/* Hero Section */}
         <section className="relative w-full overflow-hidden">
-          <div className="relative aspect-[21/12] w-full overflow-hidden">
+          <div className="relative h-[400px] w-full overflow-hidden">
             <img
               src={post.image}
               alt={post.title}
