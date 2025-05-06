@@ -1,0 +1,1528 @@
+{
+    "name": "Email classification",
+    "flow": [
+        {
+            "id": 1,
+            "module": "email:TriggerNewEmail",
+            "version": 7,
+            "parameters": {
+                "account": 7625081,
+                "criteria": "ALL",
+                "from": "",
+                "to": "",
+                "subject": "",
+                "text": "",
+                "markSeen": true,
+                "maxResults": 100,
+                "folder": "[Gmail]/All Mail"
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": -124,
+                    "y": -7
+                },
+                "restore": {
+                    "parameters": {
+                        "account": {
+                            "label": "Vitalijus Hyperion Gmail (vitalijus@hyperionaiagency.com)",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-restricted"
+                            }
+                        },
+                        "criteria": {
+                            "label": "All emails"
+                        },
+                        "folder": {
+                            "path": [
+                                "All Mail",
+                                "All Mail"
+                            ]
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "account",
+                        "type": "account:imap,google-restricted,microsoft-smtp-imap",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "criteria",
+                        "type": "select",
+                        "label": "Criteria",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "ALL",
+                                "SEEN",
+                                "UNSEEN"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "type": "email",
+                        "label": "Sender email address"
+                    },
+                    {
+                        "name": "to",
+                        "type": "email",
+                        "label": "Recipient email address"
+                    },
+                    {
+                        "name": "subject",
+                        "type": "text",
+                        "label": "Subject"
+                    },
+                    {
+                        "name": "text",
+                        "type": "text",
+                        "label": "Phrase"
+                    },
+                    {
+                        "name": "markSeen",
+                        "type": "boolean",
+                        "label": "Mark message(s) as read when fetched"
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    },
+                    {
+                        "type": "hidden"
+                    },
+                    {
+                        "name": "folder",
+                        "type": "folder",
+                        "label": "Folder",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "openai-gpt-3:CreateCompletion",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 7620054
+            },
+            "mapper": {
+                "model": "gpt-4.1-mini",
+                "top_p": "1",
+                "select": "chat",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "## AI Assistant Email Classifier – Interest in AI Automation Services\r\n\r\nYou are an AI assistant that classifies business email replies to determine **interest in AI automation services** and extracts relevant contact information for follow-up automation.\r\n\r\n---\r\n\r\n### Step 1: Intent Classification\r\n\r\nRead the email and determine whether the sender is interested in **AI automation services**. Classify it into one of the following categories:\r\n\r\n- **Interested** – Expresses clear interest in AI automation services, asks for a meeting, requests more information, or shows intent to learn more or proceed.\r\n- **Not Interested** – Clearly declines, states no need for AI automation, or indicates disinterest.\r\n- **Spam/Auto-Reply** – Out-of-office replies, bounce-backs, irrelevant messages, or generic spam. Emails from various software solutions like Upwork, Airtable, Instantly, etc...\r\n- **Follow-up Needed** – Ambiguous or non-committal response that may require human review or further clarification.\r\n\r\n---\r\n\r\n### Step 2: Extract Contact Information\r\n\r\nFrom the email content and signature, extract the following fields (if available):\r\n\r\n- **First Name**  \r\n- **Last Name**  \r\n- **Full Name**  \r\n- **Email**  \r\n- **Phone Number** (in E.164 format, e.g., `+14155552671`)  \r\n- **Company Name**  \r\n- **Website URL**\r\n\r\n---\r\n\r\n### Output Format\r\n\r\nAlways return the result as a structured JSON object in the following format:\r\n\r\n```json\r\n{\r\n  \"intent\": \"Interested\" | \"Not Interested\" | \"Spam/Auto-Reply\" | \"Follow-up Needed\",\r\n  \"confidence\": \"High\" | \"Medium\" | \"Low\",\r\n  \"reason\": \"Short explanation of why you classified it this way.\",\r\n  \"original_message\": \"Full original email text here\",\r\n  \"contact_info\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"full_name\": \"John Doe\",\r\n    \"email\": \"john@example.com\",\r\n    \"phone_number\": \"+15551234567\",\r\n    \"company_name\": \"Acme Corp\",\r\n    \"website_url\": \"https://acmecorp.com\"\r\n  }\r\n}\r\n​"
+                    },
+                    {
+                        "role": "user",
+                        "content": "From: {{1.from.name}}{{1.from.address}}\n\nEmail:\n{{1.text}}",
+                        "imageDetail": "auto"
+                    }
+                ],
+                "max_tokens": "2048",
+                "temperature": "1",
+                "n_completions": "1",
+                "response_format": "json_object",
+                "parseJSONResponse": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 277,
+                    "y": -4
+                },
+                "restore": {
+                    "expect": {
+                        "stop": {
+                            "mode": "chose"
+                        },
+                        "model": {
+                            "mode": "chose",
+                            "label": "gpt-4.1-mini (system)"
+                        },
+                        "select": {
+                            "label": "Create a Chat Completion (GPT and o1 models)"
+                        },
+                        "messages": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "Developer / System"
+                                    }
+                                },
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "User"
+                                    },
+                                    "imageDetail": {
+                                        "mode": "chose",
+                                        "label": "Auto"
+                                    },
+                                    "imageInputType": {
+                                        "mode": "chose",
+                                        "label": "Empty"
+                                    }
+                                }
+                            ]
+                        },
+                        "logit_bias": {
+                            "mode": "chose"
+                        },
+                        "response_format": {
+                            "mode": "chose",
+                            "label": "JSON Object"
+                        },
+                        "parseJSONResponse": {
+                            "mode": "chose"
+                        },
+                        "additionalParameters": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "openai-gpt-3"
+                            },
+                            "label": "ChatGPT connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:openai-gpt-3",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Select Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "chat",
+                                "prompt"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                            "max": 2,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "top_p",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                            "max": 1,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "n_completions",
+                        "type": "number",
+                        "label": "Number"
+                    },
+                    {
+                        "name": "frequency_penalty",
+                        "type": "number",
+                        "label": "Frequency Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "presence_penalty",
+                        "type": "number",
+                        "label": "Presence Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "logit_bias",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "token",
+                                    "type": "text",
+                                    "label": "Token ID",
+                                    "required": true
+                                },
+                                {
+                                    "name": "probability",
+                                    "type": "number",
+                                    "label": "Probability",
+                                    "required": true,
+                                    "validate": {
+                                        "max": 100,
+                                        "min": -100
+                                    }
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Token Probability"
+                        },
+                        "type": "array",
+                        "label": "Token Probability"
+                    },
+                    {
+                        "name": "seed",
+                        "type": "integer",
+                        "label": "Seed"
+                    },
+                    {
+                        "name": "stop",
+                        "spec": {
+                            "name": "value",
+                            "type": "text",
+                            "label": "Stop Sequence"
+                        },
+                        "type": "array",
+                        "label": "Stop Sequences",
+                        "validate": {
+                            "maxItems": 4
+                        }
+                    },
+                    {
+                        "name": "additionalParameters",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "key",
+                                    "type": "text",
+                                    "label": "Parameter Name",
+                                    "required": true
+                                },
+                                {
+                                    "name": "type",
+                                    "type": "select",
+                                    "label": "Input Type",
+                                    "options": [
+                                        {
+                                            "label": "Text",
+                                            "value": "text",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ],
+                                            "default": true
+                                        },
+                                        {
+                                            "label": "Number",
+                                            "value": "number",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "number",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Boolean",
+                                            "value": "boolean",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "boolean",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Date",
+                                            "value": "date",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "date",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Any",
+                                            "value": "any",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "any",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Input Parameter"
+                        },
+                        "type": "array",
+                        "label": "Other Input Parameters"
+                    },
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "max_tokens",
+                        "type": "uinteger",
+                        "label": "Max Completion Tokens"
+                    },
+                    {
+                        "name": "messages",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "role",
+                                    "type": "select",
+                                    "label": "Role",
+                                    "options": {
+                                        "store": [
+                                            {
+                                                "label": "User",
+                                                "value": "user",
+                                                "nested": [
+                                                    {
+                                                        "help": "Text content of the message on behalf of the selected __Role__.",
+                                                        "name": "content",
+                                                        "type": "text",
+                                                        "label": "Text Content"
+                                                    },
+                                                    {
+                                                        "name": "imageInputType",
+                                                        "type": "select",
+                                                        "label": "Image Input Type",
+                                                        "options": [
+                                                            {
+                                                                "label": "URL",
+                                                                "value": "url",
+                                                                "nested": [
+                                                                    {
+                                                                        "help": "Make sure to use a publicly accessible URL.\nYou can test if your image is publicly accessible by opening the link in an incognito tab.",
+                                                                        "name": "imageUrl",
+                                                                        "type": "url",
+                                                                        "label": "Image URL"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "label": "Image File",
+                                                                "value": "file",
+                                                                "nested": [
+                                                                    {
+                                                                        "name": "imageFile",
+                                                                        "spec": [
+                                                                            {
+                                                                                "help": "Accepted extensions: `.jpg`, `.jpeg`, `.png`, `.webp` and `.gif`.",
+                                                                                "name": "imageFilename",
+                                                                                "type": "filename",
+                                                                                "label": "Image Filename",
+                                                                                "semantic": "file:name",
+                                                                                "extension": [
+                                                                                    "jpg",
+                                                                                    "jpeg",
+                                                                                    "png",
+                                                                                    "webp",
+                                                                                    "gif"
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "name": "imageData",
+                                                                                "type": "buffer",
+                                                                                "label": "Image Data",
+                                                                                "semantic": "file:data"
+                                                                            }
+                                                                        ],
+                                                                        "type": "collection",
+                                                                        "label": "Image"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ],
+                                                        "mappable": false
+                                                    },
+                                                    {
+                                                        "help": "Recommended value: `Auto`",
+                                                        "name": "imageDetail",
+                                                        "type": "select",
+                                                        "label": "Image Detail",
+                                                        "options": [
+                                                            {
+                                                                "label": "Auto",
+                                                                "value": "auto",
+                                                                "default": true
+                                                            },
+                                                            {
+                                                                "label": "High",
+                                                                "value": "high"
+                                                            },
+                                                            {
+                                                                "label": "Low",
+                                                                "value": "low"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "label": "Assistant",
+                                                "value": "assistant",
+                                                "nested": [
+                                                    {
+                                                        "help": "Text content of the message on behalf of the selected __Role__.",
+                                                        "name": "content",
+                                                        "type": "text",
+                                                        "label": "Text Content"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "label": "Developer / System",
+                                                "value": "system",
+                                                "nested": [
+                                                    {
+                                                        "help": "Text content of the message on behalf of the selected __Role__.",
+                                                        "name": "content",
+                                                        "type": "text",
+                                                        "label": "Text Content"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "required": true
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Message"
+                        },
+                        "type": "array",
+                        "label": "Messages",
+                        "required": true
+                    },
+                    {
+                        "name": "response_format",
+                        "type": "select",
+                        "label": "Response Format",
+                        "validate": {
+                            "enum": [
+                                "text",
+                                "json_object"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "parseJSONResponse",
+                        "type": "boolean",
+                        "label": "Parse JSON Response",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "result",
+                        "type": "any",
+                        "label": "Result"
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "object",
+                        "type": "text",
+                        "label": "Object"
+                    },
+                    {
+                        "name": "created",
+                        "type": "date",
+                        "label": "Created"
+                    },
+                    {
+                        "name": "model",
+                        "type": "text",
+                        "label": "Model"
+                    },
+                    {
+                        "name": "choices",
+                        "spec": [
+                            {
+                                "name": "text",
+                                "type": "text",
+                                "label": "Text"
+                            },
+                            {
+                                "name": "index",
+                                "type": "number",
+                                "label": "Index"
+                            },
+                            {
+                                "name": "logprobs",
+                                "type": "text",
+                                "label": "Log Probs"
+                            },
+                            {
+                                "name": "finish_reason",
+                                "type": "text",
+                                "label": "Finish Reason"
+                            },
+                            {
+                                "name": "message",
+                                "spec": [
+                                    {
+                                        "name": "role",
+                                        "type": "text",
+                                        "label": "Role"
+                                    },
+                                    {
+                                        "name": "content",
+                                        "type": "text",
+                                        "label": "Content"
+                                    },
+                                    {
+                                        "name": "refusal",
+                                        "type": "text",
+                                        "label": "Refusal"
+                                    },
+                                    {
+                                        "name": "annotations",
+                                        "spec": [
+                                            {
+                                                "name": "type",
+                                                "type": "text",
+                                                "label": "Type"
+                                            },
+                                            {
+                                                "name": "url_citation",
+                                                "spec": [
+                                                    {
+                                                        "name": "end_index",
+                                                        "type": "number",
+                                                        "label": "End Index"
+                                                    },
+                                                    {
+                                                        "name": "start_index",
+                                                        "type": "number",
+                                                        "label": "Start Index"
+                                                    },
+                                                    {
+                                                        "name": "title",
+                                                        "type": "text",
+                                                        "label": "Title"
+                                                    },
+                                                    {
+                                                        "name": "url",
+                                                        "type": "text",
+                                                        "label": "URL"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "URL Citation"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Annotations"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Message"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Choices"
+                    },
+                    {
+                        "name": "usage",
+                        "spec": [
+                            {
+                                "name": "prompt_tokens",
+                                "type": "number",
+                                "label": "Prompt Tokens"
+                            },
+                            {
+                                "name": "completion_tokens",
+                                "type": "text",
+                                "label": "Completion Tokens"
+                            },
+                            {
+                                "name": "total_tokens",
+                                "type": "number",
+                                "label": "Total Tokens"
+                            },
+                            {
+                                "name": "prompt_tokens_details",
+                                "spec": [
+                                    {
+                                        "name": "cached_tokens",
+                                        "type": "uinteger",
+                                        "label": "Cached Tokens"
+                                    },
+                                    {
+                                        "name": "text_tokens",
+                                        "type": "uinteger",
+                                        "label": "Text Tokens"
+                                    },
+                                    {
+                                        "name": "image_tokens",
+                                        "type": "uinteger",
+                                        "label": "Image Tokens"
+                                    },
+                                    {
+                                        "name": "audio_tokens",
+                                        "type": "uinteger",
+                                        "label": "Audio Tokens"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Prompt Tokens Details"
+                            },
+                            {
+                                "name": "completion_tokens_details",
+                                "spec": [
+                                    {
+                                        "name": "reasoning_tokens",
+                                        "type": "uinteger",
+                                        "label": "Reasoning Tokens"
+                                    },
+                                    {
+                                        "name": "text_tokens",
+                                        "type": "uinteger",
+                                        "label": "Text Tokens"
+                                    },
+                                    {
+                                        "name": "audio_tokens",
+                                        "type": "uinteger",
+                                        "label": "Audio Tokens"
+                                    },
+                                    {
+                                        "name": "accepted_prediction_tokens",
+                                        "type": "uinteger",
+                                        "label": "Accepted Prediction Tokens"
+                                    },
+                                    {
+                                        "name": "rejected_prediction_tokens",
+                                        "type": "uinteger",
+                                        "label": "Rejected Prediction Tokens"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Completion Tokens Details"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Usage"
+                    },
+                    {
+                        "name": "service_tier",
+                        "type": "text",
+                        "label": "Service Tier"
+                    },
+                    {
+                        "name": "system_fingerprint",
+                        "type": "text",
+                        "label": "System Fingerprint"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 5,
+            "module": "airtable:ActionSearchRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7954163
+            },
+            "mapper": {
+                "base": "appht5228JoMLT4kR",
+                "useColumnId": false,
+                "table": "tblo0QUd9xe0kztx0",
+                "formula": "{email} = \"{{1.from.address}}\"",
+                "maxRecords": "1",
+                "fields": [
+                    "email",
+                    "name",
+                    "phone",
+                    "company",
+                    "industry",
+                    "lead_source",
+                    "status",
+                    "created_at",
+                    "updated_at",
+                    "intent (from lead_message_log)",
+                    "lead_message_log",
+                    "lead_action_log"
+                ]
+            },
+            "metadata": {
+                "designer": {
+                    "x": 748,
+                    "y": -6
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "My Airtable OAuth connection (User ID: usrEE4NKAJiGM8q5V)",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            }
+                        }
+                    },
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Hyperion"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "leads"
+                        },
+                        "sort": {
+                            "mode": "chose"
+                        },
+                        "view": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "fields": {
+                            "mode": "chose",
+                            "label": [
+                                "email",
+                                "name",
+                                "phone",
+                                "company",
+                                "industry",
+                                "lead_source",
+                                "status",
+                                "created_at",
+                                "updated_at",
+                                "intent (from lead_message_log)",
+                                "lead_message_log",
+                                "lead_action_log"
+                            ]
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "sort",
+                        "type": "array",
+                        "label": "Sort",
+                        "spec": [
+                            {
+                                "name": "field",
+                                "type": "select",
+                                "label": "Field",
+                                "options": [],
+                                "dynamic": true
+                            },
+                            {
+                                "name": "direction",
+                                "type": "select",
+                                "label": "Direction",
+                                "options": [
+                                    {
+                                        "label": "Descending",
+                                        "value": "desc"
+                                    },
+                                    {
+                                        "label": "Ascending",
+                                        "value": "asc"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "fields",
+                        "type": "select",
+                        "label": "Output Fields",
+                        "multiple": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "__IMTLENGTH__",
+                        "label": "Total number of bundles",
+                        "type": "uinteger"
+                    },
+                    {
+                        "name": "__IMTINDEX__",
+                        "label": "Bundle order position",
+                        "type": "uinteger"
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "email",
+                        "label": "email",
+                        "type": "text"
+                    },
+                    {
+                        "name": "name",
+                        "label": "name",
+                        "type": "text"
+                    },
+                    {
+                        "name": "phone",
+                        "label": "phone",
+                        "type": "text"
+                    },
+                    {
+                        "name": "company",
+                        "label": "company",
+                        "type": "text"
+                    },
+                    {
+                        "name": "industry",
+                        "label": "industry",
+                        "type": "text"
+                    },
+                    {
+                        "name": "lead_source",
+                        "label": "lead_source",
+                        "type": "text"
+                    },
+                    {
+                        "name": "status",
+                        "label": "status",
+                        "type": "text"
+                    },
+                    {
+                        "name": "created_at",
+                        "label": "created_at",
+                        "type": "date",
+                        "time": false
+                    },
+                    {
+                        "name": "updated_at",
+                        "label": "updated_at",
+                        "type": "date",
+                        "time": false
+                    },
+                    {
+                        "name": "intent (from lead_message_log)",
+                        "label": "intent (from lead_message_log)",
+                        "type": "array"
+                    },
+                    {
+                        "name": "lead_message_log",
+                        "label": "lead_message_log",
+                        "type": "array",
+                        "spec": {
+                            "label": "Record ID"
+                        }
+                    },
+                    {
+                        "name": "lead_action_log",
+                        "label": "lead_action_log",
+                        "type": "array",
+                        "spec": {
+                            "label": "Record ID"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "airtable:upsertRecord",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7954163
+            },
+            "mapper": {
+                "base": "appht5228JoMLT4kR",
+                "typecast": true,
+                "useColumnId": false,
+                "table": "tblo0QUd9xe0kztx0",
+                "recordId": "{{5.id}}",
+                "record": {
+                    "fldNMKuXeR8gj5cT2": "{{1.from.address}}",
+                    "fldD7XaS5DV09dOAG": "{{1.from.name}}",
+                    "fldQG7Q3IAcJkpxr9": "{{2.result.contact_info.phone_number}}",
+                    "fld9QAnr3O0bXV5Tk": "{{2.result.contact_info.company_name}}",
+                    "fldjSEVL1RdrXDedB": "Email"
+                }
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1132,
+                    "y": -10
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "My Airtable OAuth connection (User ID: usrEE4NKAJiGM8q5V)",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            }
+                        }
+                    },
+                    "expect": {
+                        "base": {
+                            "label": "Hyperion"
+                        },
+                        "typecast": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        },
+                        "table": {
+                            "label": "leads"
+                        },
+                        "record": {
+                            "nested": {
+                                "fld1ceaXBq5c7SmMs": {
+                                    "mode": "chose",
+                                    "label": "Empty"
+                                },
+                                "fldGU4M4UM0RypJSM": {
+                                    "mode": "chose"
+                                },
+                                "fldchwyZ5KrjFfqX0": {
+                                    "mode": "chose"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "typecast",
+                        "type": "boolean",
+                        "label": "Smart links",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "recordId",
+                        "type": "text",
+                        "label": "Record ID"
+                    },
+                    {
+                        "name": "record",
+                        "type": "collection",
+                        "label": "Record",
+                        "spec": [
+                            {
+                                "name": "fldNMKuXeR8gj5cT2",
+                                "type": "text",
+                                "label": "email"
+                            },
+                            {
+                                "name": "fldD7XaS5DV09dOAG",
+                                "type": "text",
+                                "label": "name"
+                            },
+                            {
+                                "name": "fldQG7Q3IAcJkpxr9",
+                                "type": "text",
+                                "label": "phone"
+                            },
+                            {
+                                "name": "fld9QAnr3O0bXV5Tk",
+                                "type": "text",
+                                "label": "company"
+                            },
+                            {
+                                "name": "fldyUG9biEOq8Oitl",
+                                "type": "text",
+                                "label": "industry"
+                            },
+                            {
+                                "name": "fldjSEVL1RdrXDedB",
+                                "type": "text",
+                                "label": "lead_source"
+                            },
+                            {
+                                "name": "fld1ceaXBq5c7SmMs",
+                                "type": "select",
+                                "label": "status",
+                                "mode": "edit"
+                            },
+                            {
+                                "name": "fldcsEblm0mgNL4oN",
+                                "type": "date",
+                                "label": "created_at",
+                                "time": false
+                            },
+                            {
+                                "name": "fldsDHdw6bWLrjZKT",
+                                "type": "date",
+                                "label": "updated_at",
+                                "time": false
+                            },
+                            {
+                                "name": "fldGU4M4UM0RypJSM",
+                                "type": "array",
+                                "label": "lead_message_log",
+                                "spec": {
+                                    "label": "Record ID",
+                                    "name": "value"
+                                }
+                            },
+                            {
+                                "name": "fldchwyZ5KrjFfqX0",
+                                "type": "array",
+                                "label": "lead_action_log",
+                                "spec": {
+                                    "label": "Record ID",
+                                    "name": "value"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "email",
+                        "label": "email",
+                        "type": "text"
+                    },
+                    {
+                        "name": "name",
+                        "label": "name",
+                        "type": "text"
+                    },
+                    {
+                        "name": "phone",
+                        "label": "phone",
+                        "type": "text"
+                    },
+                    {
+                        "name": "company",
+                        "label": "company",
+                        "type": "text"
+                    },
+                    {
+                        "name": "industry",
+                        "label": "industry",
+                        "type": "text"
+                    },
+                    {
+                        "name": "lead_source",
+                        "label": "lead_source",
+                        "type": "text"
+                    },
+                    {
+                        "name": "status",
+                        "label": "status",
+                        "type": "text"
+                    },
+                    {
+                        "name": "created_at",
+                        "label": "created_at",
+                        "type": "date",
+                        "time": false
+                    },
+                    {
+                        "name": "updated_at",
+                        "label": "updated_at",
+                        "type": "date",
+                        "time": false
+                    },
+                    {
+                        "name": "intent (from lead_message_log)",
+                        "label": "intent (from lead_message_log)",
+                        "type": "array"
+                    },
+                    {
+                        "name": "lead_message_log",
+                        "label": "lead_message_log",
+                        "type": "array",
+                        "spec": {
+                            "label": "Record ID"
+                        }
+                    },
+                    {
+                        "name": "lead_action_log",
+                        "label": "lead_action_log",
+                        "type": "array",
+                        "spec": {
+                            "label": "Record ID"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "airtable:ActionCreateRecord",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 7954163
+            },
+            "mapper": {
+                "base": "appht5228JoMLT4kR",
+                "typecast": false,
+                "useColumnId": false,
+                "table": "tblToEv6IFyKzkwti",
+                "record": {
+                    "fldoonqctgYSODU62": "{{1.text}}",
+                    "fldqw9TIhMnlEksov": "{{2.result.intent}}",
+                    "fldQr9fv0sZrYHDn3": "{{2.result.confidence}}",
+                    "fldQvxITo4Z7S6z7X": "{{2.result.reason}}",
+                    "fld6x1CBEjsumD0ec": [
+                        "{{4.id}}"
+                    ]
+                }
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1501,
+                    "y": -14
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "My Airtable OAuth connection (User ID: usrEE4NKAJiGM8q5V)",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            }
+                        }
+                    },
+                    "expect": {
+                        "base": {
+                            "label": "Hyperion"
+                        },
+                        "typecast": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        },
+                        "table": {
+                            "nested": [
+                                {
+                                    "name": "record",
+                                    "spec": [
+                                        {
+                                            "name": "fldoonqctgYSODU62",
+                                            "label": "original_message",
+                                            "type": "text",
+                                            "multiline": true
+                                        },
+                                        {
+                                            "name": "fldqw9TIhMnlEksov",
+                                            "label": "intent",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "name": "fldQr9fv0sZrYHDn3",
+                                            "label": "intent confidence",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "name": "fldQvxITo4Z7S6z7X",
+                                            "label": "intent reasoning",
+                                            "type": "text",
+                                            "multiline": true
+                                        },
+                                        {
+                                            "name": "fld6x1CBEjsumD0ec",
+                                            "label": "lead",
+                                            "type": "array",
+                                            "spec": {
+                                                "label": "Record ID"
+                                            }
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Record"
+                                }
+                            ],
+                            "label": "lead_message_log"
+                        },
+                        "record": {
+                            "nested": {
+                                "fld6x1CBEjsumD0ec": {
+                                    "mode": "chose",
+                                    "items": [
+                                        null
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "typecast",
+                        "type": "boolean",
+                        "label": "Smart links",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "record",
+                        "type": "collection",
+                        "label": "Record",
+                        "spec": [
+                            {
+                                "name": "fldoonqctgYSODU62",
+                                "type": "text",
+                                "label": "original_message"
+                            },
+                            {
+                                "name": "fldqw9TIhMnlEksov",
+                                "type": "text",
+                                "label": "intent"
+                            },
+                            {
+                                "name": "fldQr9fv0sZrYHDn3",
+                                "type": "text",
+                                "label": "intent confidence"
+                            },
+                            {
+                                "name": "fldQvxITo4Z7S6z7X",
+                                "type": "text",
+                                "label": "intent reasoning"
+                            },
+                            {
+                                "name": "fld6x1CBEjsumD0ec",
+                                "type": "array",
+                                "label": "lead",
+                                "spec": {
+                                    "label": "Record ID",
+                                    "name": "value"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "autonumber",
+                        "label": "autonumber",
+                        "type": "number"
+                    },
+                    {
+                        "name": "summary",
+                        "label": "summary",
+                        "type": "text"
+                    },
+                    {
+                        "name": "original_message",
+                        "label": "original_message",
+                        "type": "text",
+                        "multiline": true
+                    },
+                    {
+                        "name": "intent",
+                        "label": "intent",
+                        "type": "text"
+                    },
+                    {
+                        "name": "intent confidence",
+                        "label": "intent confidence",
+                        "type": "text"
+                    },
+                    {
+                        "name": "intent reasoning",
+                        "label": "intent reasoning",
+                        "type": "text",
+                        "multiline": true
+                    },
+                    {
+                        "name": "created_at",
+                        "label": "created_at",
+                        "type": "date"
+                    },
+                    {
+                        "name": "updated_at",
+                        "label": "updated_at",
+                        "type": "date"
+                    },
+                    {
+                        "name": "lead",
+                        "label": "lead",
+                        "type": "array",
+                        "spec": {
+                            "label": "Record ID"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu2.make.com",
+        "notes": []
+    }
+}

@@ -104,7 +104,7 @@ export function AboutSection() {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <a
-            href="#contact"
+            href="/#contact"
             className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-500 to-green-500 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
           >
             Get Started

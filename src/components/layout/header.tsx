@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
-const navigation = [{ name: "Services", href: "#services" }];
+const navigation = [
+  { name: "Services", href: "#services" },
+  { name: "Posts", href: "/posts" },
+];
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isPostsPage = pathname?.startsWith("/posts");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,12 +30,14 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-        isScrolled ? "bg-black/80 backdrop-blur-lg" : "bg-transparent"
-      }`}
+        isScrolled || isPostsPage
+          ? "bg-black/80 backdrop-blur-lg"
+          : "bg-transparent"
+      } ${isPostsPage ? "h-16" : "h-20"}`}
     >
-      <nav className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav className="container mx-auto flex h-full items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="h-24 w-24">
+        <Link href="/" className={`${isPostsPage ? "h-16 w-16" : "h-24 w-24"}`}>
           <img
             src="/color-logo.svg"
             alt="Hyperion Logo"

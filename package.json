@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build",
+    "build": "contentlayer build && next build",
     "check": "next lint && tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -17,7 +17,8 @@
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "cl-dev": "contentlayer2 dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -56,11 +57,15 @@
     "@trpc/server": "^11.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "contentlayer2": "^0.5.8",
+    "date-fns": "^4.1.0",
     "drizzle-orm": "^0.41.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.7.4",
     "lucide-react": "^0.503.0",
     "next": "^15.2.3",
+    "next-contentlayer2": "^0.5.8",
+    "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.4.6",
     "nodemailer": "^6.10.1",
     "posthog-js": "^1.236.7",

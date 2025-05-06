@@ -1,0 +1,34 @@
+{
+  "cacheItemsMap": {
+    "posts/welcome.mdx": {
+      "document": {
+        "title": "Welcome to Our Blog",
+        "date": "2024-03-20T00:00:00.000Z",
+        "author": "John Doe",
+        "tags": [
+          "welcome",
+          "introduction"
+        ],
+        "description": "Welcome to our blog where we share insights about technology and development.",
+        "body": {
+          "raw": "\n# Welcome to Our Blog\n\nThis is our first blog post using markdown. Here's what you can do with markdown:\n\n## Features\n\n- Write content in a simple, readable format\n- Use **bold** and _italic_ text\n- Create lists and code blocks\n- Add links and images\n\n## Code Example\n\n```typescript\nfunction greet(name: string) {\n  return `Hello, ${name}!`;\n}\n```\n\n## What's Next?\n\nStay tuned for more posts about:\n\n- Web Development\n- Best Practices\n- Tips and Tricks\n",
+          "code": "var Component=(()=>{var m=Object.create;var i=Object.defineProperty;var u=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var g=Object.getPrototypeOf,x=Object.prototype.hasOwnProperty;var f=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),b=(t,e)=>{for(var r in e)i(t,r,{get:e[r],enumerable:!0})},c=(t,e,r,l)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let o of p(e))!x.call(t,o)&&o!==r&&i(t,o,{get:()=>e[o],enumerable:!(l=u(e,o))||l.enumerable});return t};var w=(t,e,r)=>(r=t!=null?m(g(t)):{},c(e||!t||!t.__esModule?i(r,\"default\",{value:t,enumerable:!0}):r,t)),_=t=>c(i({},\"__esModule\",{value:!0}),t);var d=f((y,s)=>{s.exports=_jsx_runtime});var j={};b(j,{default:()=>h,frontmatter:()=>W});var n=w(d()),W={title:\"Welcome to Our Blog\",date:\"2024-03-20\",author:\"John Doe\",tags:[\"welcome\",\"introduction\"],description:\"Welcome to our blog where we share insights about technology and development.\"};function a(t){let e={code:\"code\",em:\"em\",h1:\"h1\",h2:\"h2\",li:\"li\",p:\"p\",pre:\"pre\",strong:\"strong\",ul:\"ul\",...t.components};return(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(e.h1,{children:\"Welcome to Our Blog\"}),`\n`,(0,n.jsx)(e.p,{children:\"This is our first blog post using markdown. Here's what you can do with markdown:\"}),`\n`,(0,n.jsx)(e.h2,{children:\"Features\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsx)(e.li,{children:\"Write content in a simple, readable format\"}),`\n`,(0,n.jsxs)(e.li,{children:[\"Use \",(0,n.jsx)(e.strong,{children:\"bold\"}),\" and \",(0,n.jsx)(e.em,{children:\"italic\"}),\" text\"]}),`\n`,(0,n.jsx)(e.li,{children:\"Create lists and code blocks\"}),`\n`,(0,n.jsx)(e.li,{children:\"Add links and images\"}),`\n`]}),`\n`,(0,n.jsx)(e.h2,{children:\"Code Example\"}),`\n`,(0,n.jsx)(e.pre,{children:(0,n.jsx)(e.code,{className:\"language-typescript\",children:\"function greet(name: string) {\\n  return `Hello, ${name}!`;\\n}\\n\"})}),`\n`,(0,n.jsx)(e.h2,{children:\"What's Next?\"}),`\n`,(0,n.jsx)(e.p,{children:\"Stay tuned for more posts about:\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsx)(e.li,{children:\"Web Development\"}),`\n`,(0,n.jsx)(e.li,{children:\"Best Practices\"}),`\n`,(0,n.jsx)(e.li,{children:\"Tips and Tricks\"}),`\n`]})]})}function h(t={}){let{wrapper:e}=t.components||{};return e?(0,n.jsx)(e,{...t,children:(0,n.jsx)(a,{...t})}):a(t)}return _(j);})();\n;return Component;"
+        },
+        "_id": "posts/welcome.mdx",
+        "_raw": {
+          "sourceFilePath": "posts/welcome.mdx",
+          "sourceFileName": "welcome.mdx",
+          "sourceFileDir": "posts",
+          "contentType": "mdx",
+          "flattenedPath": "posts/welcome"
+        },
+        "type": "Post",
+        "slug": "welcome",
+        "formattedDate": "March 20, 2024"
+      },
+      "documentHash": "1746540898072",
+      "hasWarnings": false,
+      "documentTypeName": "Post"
+    }
+  }
+}

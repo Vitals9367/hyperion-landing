@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { InteractiveGrid } from "@/components/ui/interactive-grid";
+import { GridPattern, GradientOverlay } from "@/components/ui/grid-pattern";
 
 export function HeroSection() {
   return (
@@ -12,8 +13,9 @@ export function HeroSection() {
       {/* Background Effects */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <InteractiveGrid />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(218,165,32,0.1),rgba(0,0,0,0))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(30,86,49,0.15),rgba(0,0,0,0))]" />
+        <GridPattern />
+        <GradientOverlay />
+        <GradientOverlay color1="rgba(30,86,49,0.15)" position="80% 50%" />
       </div>
 
       {/* Content */}
@@ -73,7 +75,7 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6"
           >
-            <Link href="#contact">
+            <Link href="/#contact">
               <Button
                 size="lg"
                 className="group bg-gradient-gold hover:shadow-primary/20 relative h-12 overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"

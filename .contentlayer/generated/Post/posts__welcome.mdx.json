@@ -1,0 +1,26 @@
+{
+  "title": "Welcome to Our Blog",
+  "date": "2024-03-20T00:00:00.000Z",
+  "image": "/posts/email-classification.png",
+  "author": "John Doe",
+  "tags": [
+    "welcome",
+    "introduction"
+  ],
+  "description": "Welcome to our blog! Learn about our mission and what you can expect from our content.",
+  "body": {
+    "raw": "\n# Welcome to Our Blog\n\nWelcome to our blog! We're excited to share our knowledge and insights about technology, development, and innovation with you.\n\n## What to Expect\n\nOur blog will cover a wide range of topics, including:\n\n- Web Development\n- AI and Machine Learning\n- Cloud Computing\n- Best Practices\n- Industry Trends\n\n## Code Example\n\nHere's a simple example of a TypeScript function:\n\n```typescript\nfunction greet(name: string): string {\n  return `Hello, ${name}!`;\n}\n```\n\n## Stay Tuned\n\nWe have many exciting topics planned for the future. Stay tuned for more content coming soon!\n",
+    "code": "var Component=(()=>{var u=Object.create;var i=Object.defineProperty;var m=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var g=Object.getPrototypeOf,x=Object.prototype.hasOwnProperty;var f=(n,e)=>()=>(e||n((e={exports:{}}).exports,e),e.exports),y=(n,e)=>{for(var t in e)i(n,t,{get:e[t],enumerable:!0})},l=(n,e,t,c)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let r of p(e))!x.call(n,r)&&r!==t&&i(n,r,{get:()=>e[r],enumerable:!(c=m(e,r))||c.enumerable});return n};var W=(n,e,t)=>(t=n!=null?u(g(n)):{},l(e||!n||!n.__esModule?i(t,\"default\",{value:n,enumerable:!0}):t,n)),w=n=>l(i({},\"__esModule\",{value:!0}),n);var d=f((v,a)=>{a.exports=_jsx_runtime});var b={};y(b,{default:()=>h,frontmatter:()=>_});var o=W(d()),_={title:\"Welcome to Our Blog\",date:\"2024-03-20\",author:\"John Doe\",tags:[\"welcome\",\"introduction\"],description:\"Welcome to our blog! Learn about our mission and what you can expect from our content.\",image:\"/posts/email-classification.png\"};function s(n){let e={code:\"code\",h1:\"h1\",h2:\"h2\",li:\"li\",p:\"p\",pre:\"pre\",ul:\"ul\",...n.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(e.h1,{children:\"Welcome to Our Blog\"}),`\n`,(0,o.jsx)(e.p,{children:\"Welcome to our blog! We're excited to share our knowledge and insights about technology, development, and innovation with you.\"}),`\n`,(0,o.jsx)(e.h2,{children:\"What to Expect\"}),`\n`,(0,o.jsx)(e.p,{children:\"Our blog will cover a wide range of topics, including:\"}),`\n`,(0,o.jsxs)(e.ul,{children:[`\n`,(0,o.jsx)(e.li,{children:\"Web Development\"}),`\n`,(0,o.jsx)(e.li,{children:\"AI and Machine Learning\"}),`\n`,(0,o.jsx)(e.li,{children:\"Cloud Computing\"}),`\n`,(0,o.jsx)(e.li,{children:\"Best Practices\"}),`\n`,(0,o.jsx)(e.li,{children:\"Industry Trends\"}),`\n`]}),`\n`,(0,o.jsx)(e.h2,{children:\"Code Example\"}),`\n`,(0,o.jsx)(e.p,{children:\"Here's a simple example of a TypeScript function:\"}),`\n`,(0,o.jsx)(e.pre,{children:(0,o.jsx)(e.code,{className:\"language-typescript\",children:\"function greet(name: string): string {\\n  return `Hello, ${name}!`;\\n}\\n\"})}),`\n`,(0,o.jsx)(e.h2,{children:\"Stay Tuned\"}),`\n`,(0,o.jsx)(e.p,{children:\"We have many exciting topics planned for the future. Stay tuned for more content coming soon!\"})]})}function h(n={}){let{wrapper:e}=n.components||{};return e?(0,o.jsx)(e,{...n,children:(0,o.jsx)(s,{...n})}):s(n)}return w(b);})();\n;return Component;"
+  },
+  "_id": "posts/welcome.mdx",
+  "_raw": {
+    "sourceFilePath": "posts/welcome.mdx",
+    "sourceFileName": "welcome.mdx",
+    "sourceFileDir": "posts",
+    "contentType": "mdx",
+    "flattenedPath": "posts/welcome"
+  },
+  "type": "Post",
+  "slug": "welcome",
+  "formattedDate": "March 20, 2024"
+}

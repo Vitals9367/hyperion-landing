@@ -22,7 +22,10 @@ type SocialLink = {
 };
 
 const navigation = {
-  main: [{ name: "Services", href: "#services" }],
+  main: [
+    { name: "Services", href: "#services" },
+    { name: "Posts", href: "/posts" },
+  ],
   social: [
     {
       name: "Twitter",
@@ -116,7 +119,7 @@ export function Footer() {
                 ))}
                 <li>
                   <Link
-                    href="#contact"
+                    href="/#contact"
                     className="text-sm text-zinc-400 transition-colors hover:text-white"
                   >
                     Get Started

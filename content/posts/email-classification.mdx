@@ -1,0 +1,169 @@
+---
+title: "Sort Your Emails Automatically: Using Make.com to Find Good Leads"
+date: "2024-05-06"
+author: "Agency Automation Team"
+tags: ["automation", "make.com", "ChatGPT", "Airtable"]
+description: "Learn how to build a simple automation that sorts your emails, identifies potential clients, and saves them to Airtable—all without manual work."
+image: "/posts/email-classification.png"
+---
+
+Tired of checking every email to find potential clients? This simple automation can help. It sorts your emails and finds the good leads without you doing the work.
+
+## What This Automation Does
+
+This Make.com setup:
+
+- Watches your Gmail for new emails
+- Uses ChatGPT to check if emails are from real people interested in your services
+- Ignores spam and auto-replies
+- Saves good leads to Airtable
+- Keeps track of all messages
+
+## How to Build It
+
+### Step 1: Set Up Your Tools
+
+You need:
+
+- A Make.com account (free plan works)
+- An OpenAI API key for ChatGPT
+- An Airtable account
+- A Gmail account
+
+### Step 2: Create Your Airtable Base
+
+Make these tables:
+
+**Leads Table:**
+
+- email (Primary field)
+- name
+- phone
+- company
+- industry
+- lead_source (set default to "Email")
+- status
+- created_at
+
+**Lead_message_log Table:**
+
+- original_message
+- intent
+- intent_confidence
+- intent_reasoning
+- lead (Link to Leads table)
+
+### Step 3: Build the Make.com Workflow
+
+![Email Classification Automation](/posts/email-classification.png)
+
+1. **Start with Gmail**
+
+   - Choose "Gmail > Watch Emails" module
+   - Set it to check every 15 minutes
+   - Select the label or folder you want to monitor
+
+2. **Add ChatGPT**
+   - Choose "OpenAI > Create Chat Completion" module
+   - Select GPT-4 or GPT-3.5 model
+   - Use this prompt for the ChatGPT node:
+
+````
+## AI Assistant Email Classifier – Interest in AI Automation Services
+You are an AI assistant that classifies business email replies to determine **interest in AI automation services** and extracts relevant contact information for follow-up automation.
+---
+### Step 1: Intent Classification
+Read the email and determine whether the sender is interested in **AI automation services**. Classify it into one of the following categories:
+- **Interested** – Expresses clear interest in AI automation services, asks for a meeting, requests more information, or shows intent to learn more or proceed.
+- **Not Interested** – Clearly declines, states no need for AI automation, or indicates disinterest.
+- **Spam/Auto-Reply** – Out-of-office replies, bounce-backs, irrelevant messages, or generic spam. Emails from various software solutions like Upwork, Airtable, Instantly, etc...
+- **Follow-up Needed** – Ambiguous or non-committal response that may require human review or further clarification.
+---
+### Step 2: Extract Contact Information
+From the email content and signature, extract the following fields (if available):
+- **First Name**
+- **Last Name**
+- **Full Name**
+- **Email**
+- **Phone Number** (in E.164 format, e.g., `+14155552671`)
+- **Company Name**
+- **Website URL**
+---
+### Output Format
+Always return the result as a structured JSON object in the following format:
+```json
+{
+  "intent": "Interested" | "Not Interested" | "Spam/Auto-Reply" | "Follow-up Needed",
+  "confidence": "High" | "Medium" | "Low",
+  "reason": "Short explanation of why you classified it this way.",
+  "original_message": "Full original email text here",
+  "contact_info": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "full_name": "John Doe",
+    "email": "john@example.com",
+    "phone_number": "+15551234567",
+    "company_name": "Acme Corp",
+    "website_url": "https://acmecorp.com"
+  }
+}
+````
+
+3. **Add a Filter**
+
+   - Click the "+" button after the OpenAI module and select "Flow Control > Filter"
+   - Label it "If not spam"
+   - Set condition: `2. result: intent` Not equal to (case insensitive) `Spam/Auto-Reply`
+
+4. **Connect to Airtable - Create Lead**
+
+   - Choose "Airtable > Create a record" module
+   - Select your base and the "leads" table
+   - Map the fields:
+     - email: `1. Sender: Email address`
+     - name: `1. Sender: Sender name`
+     - phone: `2. result: contact_info: phone_number`
+     - company: `2. result: contact_info: company_name`
+     - lead_source: Set to "Email"
+
+5. **Connect to Airtable - Log Message**
+   - Choose "Airtable > Create a record" module again
+   - Select your base and the "lead_message_log" table
+   - Map the fields:
+     - original_message: `1. Text content`
+     - intent: `2. result: intent`
+     - intent_confidence: `2. result: confidence`
+     - intent_reasoning: `2. result: reason`
+     - lead: ID from the lead created or found (Map to "Record ID 1" from previous step)
+
+## How to Use the Results
+
+1. Check your Airtable daily for new leads
+2. Follow up quickly with interested people
+3. Don't waste time on spam emails
+
+## Make It Better
+
+Once it's working:
+
+- Add automatic email replies
+- Create tasks for your team when good leads come in
+- Make reports to see where your leads come from
+
+## Get the Template
+
+<DownloadLink
+  href="/resources/email-classification-template.json"
+  filename="email-classification-template.json"
+  text="Download our free Make.com template here"
+/>
+
+What's included:
+
+- Ready-to-use Make.com workflow
+
+This free tool will save you hours every week and help you find more clients without the extra work.
+
+---
+
+_This is a free resource. No purchase needed._

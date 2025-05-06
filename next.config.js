@@ -3,14 +3,17 @@
  * for Docker builds.
  */
 import "./src/env.js";
+import { withContentlayer } from "next-contentlayer2";
 
-/** @type {import("next").NextConfig} */
-const config = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  reactStrictMode: true,
+  swcMinify: true,
 };
 
-export default config;
+export default withContentlayer(nextConfig);
