@@ -7,19 +7,17 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
-interface PostPageProps {
-  params: {
-    slug: string;
-  };
-}
-
 export async function generateStaticParams() {
   return allPosts.map((post: Post) => ({
     slug: post.slug,
   }));
 }
 
-export default async function PostPage({ params }: PostPageProps) {
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const post = allPosts.find((post: Post) => post.slug === slug);
 
