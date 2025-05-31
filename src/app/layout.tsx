@@ -64,6 +64,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script
+          id="vtag-ai-js"
+          async
+          src="https://r2.leadsy.ai/tag.js"
+          data-pid="1vAxhL2AuE1dPn1JS"
+          data-version="062024"
+        ></script>
+      </head>
       <body
         className={cn(
           inter.className,
