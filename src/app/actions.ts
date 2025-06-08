@@ -8,7 +8,8 @@ const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
   company: z.string().min(1, "Company name is required"),
-  message: z.string().min(1, "Message is required"),
+  message: z.string().optional(),
+  leadMagnet: z.string().min(1, "Please select a free resource"),
 });
 
 export type ContactFormData = z.infer<typeof contactSchema>;
@@ -23,7 +24,8 @@ export async function sendContactEmail(data: ContactFormData) {
       name: validatedData.name,
       email: validatedData.email,
       company_name: validatedData.company,
-      request: validatedData.message,
+      request: validatedData.message || "",
+      lead_magnet: validatedData.leadMagnet,
     };
     // Send to n8n webhook
     const response = await fetch(env.FORM_WEBHOOK_URL, {

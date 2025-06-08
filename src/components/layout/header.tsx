@@ -1,39 +1,37 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 const navigation = [
-  { name: "Services", href: "#services" },
-  { name: "Posts", href: "/posts" },
+  { name: "Explore Our Solutions", href: "#solutions" },
+  { name: "Book Your Free Strategy Call", href: "#contact", isButton: true },
 ];
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isPostsPage = pathname?.startsWith("/posts");
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleNavigationClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView();
+    }
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-        isScrolled || isPostsPage
-          ? "bg-black/80 backdrop-blur-lg"
-          : "bg-transparent"
-      } ${isPostsPage ? "h-16" : "h-20"}`}
+      className={`absolute top-0 left-0 z-50 w-full ${isPostsPage ? "h-16" : "h-20"}`}
     >
       <nav className="container mx-auto flex h-full items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
@@ -48,24 +46,36 @@ export function Header() {
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 md:flex">
           <div className="flex items-center gap-6">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-sm font-medium text-zinc-200 transition-colors hover:text-white"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) =>
+              item.isButton ? (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => handleNavigationClick(e, item.href)}
+                >
+                  <Button
+                    size="sm"
+                    className="group bg-gradient-gold hover:shadow-primary/20 relative h-10 cursor-pointer overflow-hidden rounded-full px-6 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                  >
+                    <span className="relative z-10 flex cursor-pointer items-center text-sm font-semibold">
+                      {item.name}
+                      <ArrowRight className="ml-2 h-4 w-4 cursor-pointer transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                    <div className="absolute inset-0 z-0 cursor-pointer bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
+                  </Button>
+                </Link>
+              ) : (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => handleNavigationClick(e, item.href)}
+                  className="cursor-pointer text-sm font-medium text-zinc-200 transition-colors hover:text-white"
+                >
+                  {item.name}
+                </Link>
+              ),
+            )}
           </div>
-          <Link href="#contact">
-            <Button
-              size="sm"
-              className="bg-gradient-gold text-black transition-all duration-300 hover:shadow-xl"
-            >
-              Reach Out
-            </Button>
-          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -89,27 +99,39 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="border-b border-zinc-800/50 bg-black/95 backdrop-blur-lg md:hidden"
+            className="absolute right-0 left-0 border-b border-zinc-800/50 bg-black/95 backdrop-blur-lg md:hidden"
           >
             <div className="container mx-auto space-y-4 px-4 py-6 sm:px-6">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="block text-sm font-medium text-zinc-200 transition-colors hover:text-white"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <Link href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  size="sm"
-                  className="bg-gradient-gold w-full text-black transition-all duration-300 hover:shadow-xl"
-                >
-                  Reach Out
-                </Button>
-              </Link>
+              {navigation.map((item) =>
+                item.isButton ? (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={(e) => handleNavigationClick(e, item.href)}
+                    className="block"
+                  >
+                    <Button
+                      size="sm"
+                      className="group bg-gradient-gold hover:shadow-primary/20 relative h-10 w-full cursor-pointer overflow-hidden rounded-full px-6 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                    >
+                      <span className="relative z-10 flex cursor-pointer items-center justify-center text-sm font-semibold">
+                        {item.name}
+                        <ArrowRight className="ml-2 h-4 w-4 cursor-pointer transition-transform duration-300 group-hover:translate-x-1" />
+                      </span>
+                      <div className="absolute inset-0 z-0 cursor-pointer bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={(e) => handleNavigationClick(e, item.href)}
+                    className="block cursor-pointer text-sm font-medium text-zinc-200 transition-colors hover:text-white"
+                  >
+                    {item.name}
+                  </Link>
+                ),
+              )}
             </div>
           </motion.div>
         )}

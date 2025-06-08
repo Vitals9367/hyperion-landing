@@ -1,26 +1,51 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { AlertTriangle, Clock, Users } from "lucide-react";
+import {
+  AlertTriangle,
+  Clock,
+  Users,
+  DollarSign,
+  ChartBar,
+  Target,
+} from "lucide-react";
 
 const painPoints = [
   {
     icon: AlertTriangle,
-    title: "Leads Falling Through the Cracks",
+    title: "Scaling Requires More Headcount",
     description:
-      "Manual follow-ups mean missed opportunities and lost revenue potential.",
+      "Traditional growth means hiring more staff, increasing overhead, and managing more complexity.",
   },
   {
     icon: Clock,
-    title: "Client Onboarding Chaos",
+    title: "Manual Processes Slow You Down",
     description:
-      "Inconsistent processes leading to delays and poor first impressions.",
+      "Time-consuming tasks like lead follow-up, content creation, and client onboarding limit your growth potential.",
   },
   {
     icon: Users,
-    title: "Manual Follow-ups Draining Your Team",
+    title: "Inconsistent Client Experience",
     description:
-      "Hours spent on repetitive tasks instead of strategic growth activities.",
+      "Manual processes lead to missed follow-ups, delayed responses, and frustrated clients.",
+  },
+  {
+    icon: DollarSign,
+    title: "High Customer Acquisition Costs",
+    description:
+      "Inefficient lead generation and conversion processes drive up your cost per acquisition.",
+  },
+  {
+    icon: ChartBar,
+    title: "Limited Scalability",
+    description:
+      "Your growth is capped by your team's capacity to handle more clients and projects.",
+  },
+  {
+    icon: Target,
+    title: "Missed Opportunities",
+    description:
+      "Without automation, you're losing potential clients to faster, more responsive competitors.",
   },
 ];
 
@@ -45,18 +70,20 @@ export default function BusinessPainSection() {
             <div>
               <div className="bg-gradient-gold/[0.08] ring-primary/10 mb-8 inline-flex items-center rounded-full px-6 py-2.5 shadow-sm ring-1">
                 <span className="bg-gradient-gold bg-clip-text text-sm font-semibold text-transparent">
-                  Common Agency Challenges
+                  For Mid-Market B2B Companies
                 </span>
               </div>
               <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl md:text-5xl">
-                Broken Processes Are{" "}
+                Scale Your Business{" "}
                 <span className="text-gradient bg-clip-text">
-                  Killing Your Agency Deals
+                  Without Growing Your Team
                 </span>
               </h2>
               <p className="mt-8 max-w-2xl text-lg leading-relaxed text-zinc-600">
-                Don't let manual tasks and inconsistent processes hold back your
-                agency's growth potential.
+                For B2B companies with 10-500 employees and $1M-$100M in
+                revenue, our AI-powered automation stack helps you scale
+                operations, increase revenue, and improve client experience—all
+                without hiring more staff.
               </p>
 
               {/* Decorative line */}
@@ -70,7 +97,7 @@ export default function BusinessPainSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-12"
+            className="grid gap-8 sm:grid-cols-2"
           >
             {painPoints.map((point, index) => (
               <motion.div
@@ -79,16 +106,16 @@ export default function BusinessPainSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group flex items-start gap-6"
+                className="group flex items-start gap-4"
               >
-                <div className="bg-gradient-gold inline-flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl shadow-md">
-                  <point.icon className="h-7 w-7 text-black" />
+                <div className="bg-gradient-gold inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl shadow-md">
+                  <point.icon className="h-6 w-6 text-black" />
                 </div>
                 <div>
-                  <h3 className="mb-3 text-xl font-semibold text-zinc-900">
+                  <h3 className="mb-2 text-lg font-semibold text-zinc-900">
                     {point.title}
                   </h3>
-                  <p className="text-base leading-relaxed text-zinc-600">
+                  <p className="text-sm leading-relaxed text-zinc-600">
                     {point.description}
                   </p>
                 </div>

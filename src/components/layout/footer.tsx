@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Linkedin, Twitter } from "lucide-react";
+import {
+  Linkedin,
+  Twitter,
+  Mail,
+  Phone,
+  MapPin,
+  Building2,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 // Custom Upwork icon
@@ -14,17 +21,29 @@ function UpworkIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+// Custom Fiverr icon
+function FiverrIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M22.004 5.838a.733.733 0 0 0-.52-.209h-3.145a.733.733 0 0 0-.52.209l-2.01 2.01a.733.733 0 0 0-.209.52v3.145c0 .195.078.382.209.52l2.01 2.01c.138.131.325.209.52.209h3.145c.195 0 .382-.078.52-.209l2.01-2.01a.733.733 0 0 0 .209-.52V8.368a.733.733 0 0 0-.209-.52l-2.01-2.01zm-7.563 0a.733.733 0 0 0-.52-.209H10.776a.733.733 0 0 0-.52.209l-2.01 2.01a.733.733 0 0 0-.209.52v3.145c0 .195.078.382.209.52l2.01 2.01c.138.131.325.209.52.209h3.145c.195 0 .382-.078.52-.209l2.01-2.01a.733.733 0 0 0 .209-.52V8.368a.733.733 0 0 0-.209-.52l-2.01-2.01zm-7.563 0a.733.733 0 0 0-.52-.209H3.213a.733.733 0 0 0-.52.209L.683 7.848a.733.733 0 0 0-.209.52v3.145c0 .195.078.382.209.52l2.01 2.01c.138.131.325.209.52.209h3.145c.195 0 .382-.078.52-.209l2.01-2.01a.733.733 0 0 0 .209-.52V8.368a.733.733 0 0 0-.209-.52l-2.01-2.01z" />
+    </svg>
+  );
+}
+
 type SocialLink = {
   name: string;
   href: string;
-  icon?: LucideIcon | typeof UpworkIcon;
+  icon?: LucideIcon | typeof UpworkIcon | typeof FiverrIcon;
   isText?: boolean;
 };
 
 const navigation = {
   main: [
-    { name: "Services", href: "#services" },
-    { name: "Posts", href: "/posts" },
+    { name: "What We're Solving", href: "#challenges" },
+    { name: "Solutions", href: "#solutions" },
+    // { name: "Testimonials", href: "#testimonials" },
+    // { name: "Case Studies", href: "#case-studies" },
+    { name: "Free Strategy Call", href: "#contact" },
   ],
   social: [
     {
@@ -37,16 +56,16 @@ const navigation = {
       href: "https://www.linkedin.com/in/vitalijusalsauskas/",
       icon: Linkedin,
     },
-    {
-      name: "Upwork",
-      href: "https://www.upwork.com/freelancers/~015382fec7ca204b13",
-      icon: UpworkIcon,
-    },
-    {
-      name: "Fiverr",
-      href: "https://www.fiverr.com/sellers/vitalijus_",
-      isText: true,
-    },
+    // {
+    //   name: "Upwork",
+    //   href: "https://www.upwork.com/freelancers/~015382fec7ca204b13",
+    //   icon: UpworkIcon,
+    // },
+    // {
+    //   name: "Fiverr",
+    //   href: "https://www.fiverr.com/sellers/vitalijus_",
+    //   icon: FiverrIcon,
+    // },
   ] satisfies SocialLink[],
 };
 
@@ -66,88 +85,97 @@ export function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="xl:grid xl:grid-cols-3 xl:gap-8"
+          className="grid gap-12 lg:grid-cols-4"
         >
           {/* Brand */}
-          <div className="space-y-4">
-            <Link href="/" className="block h-24 w-24">
+          <div>
+            <Link href="/" className="block h-32 w-32">
               <img
                 src="/color-logo.svg"
                 alt="Hyperion Logo"
                 className="h-full w-full"
               />
             </Link>
-            <p className="mt-4 max-w-xs text-sm text-zinc-400">
-              We're not another agency. We're your agency's invisible engine.
+            <p className="mt-4 text-base font-medium text-zinc-400">
+              Powering your business success with intelligent AI
             </p>
-            <div className="flex items-center space-x-4">
-              {navigation.social.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-zinc-400 transition-colors hover:text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {item.isText ? (
-                    <span className="text-sm font-medium">{item.name}</span>
-                  ) : (
-                    <>
-                      <span className="sr-only">{item.name}</span>
-                      <item.icon className="h-5 w-5" aria-hidden="true" />
-                    </>
-                  )}
-                </Link>
-              ))}
-            </div>
           </div>
 
           {/* Navigation */}
-          <div className="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div>
-              <h3 className="text-sm font-semibold text-white">Navigation</h3>
-              <ul role="list" className="mt-4 space-y-3">
-                {navigation.main.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-zinc-400 transition-colors hover:text-white"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-                <li>
+          <div>
+            <h3 className="text-sm font-semibold text-white">Navigation</h3>
+            <ul role="list" className="mt-4 space-y-3">
+              {navigation.main.map((item) => (
+                <li key={item.name}>
                   <Link
-                    href="/#contact"
+                    href={item.href}
                     className="text-sm text-zinc-400 transition-colors hover:text-white"
+                    style={{ scrollBehavior: "auto" }}
                   >
-                    Get Started
+                    {item.name}
                   </Link>
                 </li>
-              </ul>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold text-white">Contact</h3>
+            <div className="space-y-3">
+              <a
+                href="mailto:vitalijus@hyperionaiagency.com"
+                className="group flex items-center gap-3 text-zinc-400 transition-colors hover:text-white"
+              >
+                <Mail className="h-4 w-4 text-yellow-500" />
+                <span>vitalijus@hyperionaiagency.com</span>
+              </a>
+              <a
+                href="tel:+37062876550"
+                className="group flex items-center gap-3 text-zinc-400 transition-colors hover:text-white"
+              >
+                <Phone className="h-4 w-4 text-yellow-500" />
+                <span>+370 628 76550</span>
+              </a>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Chemijos+g.+27C-62+Kaunas+LT-51332"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 text-zinc-400 transition-colors hover:text-white"
+              >
+                <MapPin className="h-4 w-4 text-yellow-500" />
+                <span>Chemijos g., 27C-62, LT-51332 Kaunas</span>
+              </a>
+              <a
+                href="https://rekvizitai.vz.lt/en/company/hyperion_ai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 text-zinc-400 transition-colors hover:text-white"
+              >
+                <Building2 className="h-4 w-4 text-yellow-500" />
+                <span>Company code: 307011251</span>
+              </a>
             </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white">Legal</h3>
-              <ul role="list" className="mt-4 space-y-3">
-                <li>
+          </div>
+
+          {/* Social Links */}
+          <div>
+            <h3 className="text-sm font-semibold text-white">Connect</h3>
+            <ul role="list" className="mt-4 space-y-3">
+              {navigation.social.map((item) => (
+                <li key={item.name}>
                   <Link
-                    href="/privacy"
-                    className="text-sm text-zinc-400 transition-colors hover:text-white"
+                    href={item.href}
+                    className="flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    Privacy Policy
+                    <item.icon className="h-4 w-4" aria-hidden="true" />
+                    <span>{item.name}</span>
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/terms"
-                    className="text-sm text-zinc-400 transition-colors hover:text-white"
-                  >
-                    Terms of Service
-                  </Link>
-                </li>
-              </ul>
-            </div>
+              ))}
+            </ul>
           </div>
         </motion.div>
 
@@ -158,8 +186,8 @@ export function Footer() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-12 border-t border-white/10 pt-8"
         >
-          <p className="text-center text-xs text-zinc-400">
-            &copy; {new Date().getFullYear()} Hyperion Systems. All rights
+          <p className="text-center text-sm text-zinc-400">
+            &copy; {new Date().getFullYear()} Hyperion AI MB. All rights
             reserved.
           </p>
         </motion.div>
