@@ -42,7 +42,7 @@ const navigation = {
     { name: "What We're Solving", href: "/#challenges" },
     { name: "Solutions", href: "/services" },
     { name: "Free Strategy Call", href: "/#contact" },
-    { name: "Resources", href: "/resources" },
+    // { name: "Resources", href: "/resources" },
   ],
   social: [
     {
