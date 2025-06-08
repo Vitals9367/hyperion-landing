@@ -39,11 +39,10 @@ type SocialLink = {
 
 const navigation = {
   main: [
-    { name: "What We're Solving", href: "#challenges" },
-    { name: "Solutions", href: "#solutions" },
-    // { name: "Testimonials", href: "#testimonials" },
-    // { name: "Case Studies", href: "#case-studies" },
-    { name: "Free Strategy Call", href: "#contact" },
+    { name: "What We're Solving", href: "/#challenges" },
+    { name: "Solutions", href: "/services" },
+    { name: "Free Strategy Call", href: "/#contact" },
+    { name: "Resources", href: "/resources" },
   ],
   social: [
     {
@@ -89,7 +88,7 @@ export function Footer() {
         >
           {/* Brand */}
           <div>
-            <Link href="/" className="block h-32 w-32">
+            <Link href="/" className="-mt-12 block h-32 w-32">
               <img
                 src="/color-logo.svg"
                 alt="Hyperion Logo"
@@ -144,7 +143,7 @@ export function Footer() {
                 className="group flex items-center gap-3 text-zinc-400 transition-colors hover:text-white"
               >
                 <MapPin className="h-4 w-4 text-yellow-500" />
-                <span>Chemijos g., 27C-62, LT-51332 Kaunas</span>
+                <span>Chemijos g. 27C-62, LT-51332 Kaunas</span>
               </a>
               <a
                 href="https://rekvizitai.vz.lt/en/company/hyperion_ai/"

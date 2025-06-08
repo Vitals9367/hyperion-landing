@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 const navigation = [
-  { name: "Explore Our Solutions", href: "#solutions" },
-  { name: "Book Your Free Strategy Call", href: "#contact", isButton: true },
+  { name: "Explore Our Solutions", href: "/#solutions" },
+  { name: "Book Your Free Strategy Call", href: "/#contact", isButton: true },
 ];
 
 export function Header() {

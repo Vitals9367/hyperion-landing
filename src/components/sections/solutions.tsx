@@ -61,6 +61,7 @@ const solutions = [
       "Track and optimize lead quality",
     ],
     avatar: "/agents/prometheus.png",
+    href: "/services/prometheus",
   },
   {
     icon: MessageSquare,
@@ -74,8 +75,7 @@ const solutions = [
       "Optimize response strategies",
     ],
     avatar: "/agents/hermes.png",
-    avatarDescription:
-      "A dynamic figure in mid-stride, arms spread wide with golden wings at his ankles and a caduceus staff in hand. Dressed in a modern business suit with flowing, ethereal elements, standing in a high-tech office environment. Dramatic lighting from above creates a sense of speed and communication, with digital symbols and messages swirling around him. His pose captures the essence of swift communication and omnipresence, embodying the messenger of the digital age.",
+    href: "/services/hermes",
   },
   {
     icon: Users,
@@ -89,19 +89,18 @@ const solutions = [
       "Track customer journey progress",
     ],
     avatar: "/agents/hestia.png",
-    avatarDescription:
-      "A nurturing figure in a protective stance, with arms outstretched in a welcoming gesture. Dressed in a blend of modern business attire and flowing robes, surrounded by a warm, golden glow. Standing in a hybrid space that combines elements of a modern office and a welcoming home environment. Digital connections and customer journey paths visible as glowing threads connecting to her. Her pose radiates warmth and trust, embodying the guardian of customer relationships and success.",
+    href: "/services/hestia",
   },
 ];
 
 export function SolutionsSection() {
   return (
-    <section className="relative w-full overflow-hidden bg-black py-24 lg:py-32">
+    <section className="relative w-full overflow-hidden bg-gradient-to-b from-black to-black py-24 lg:py-32">
       {/* Background Effects */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(218,165,32,0.1),rgba(0,0,0,0))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(30,86,49,0.15),rgba(0,0,0,0))]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,215,0,0.05)_1px,transparent_1px),linear-gradient(to_right,rgba(255,215,0,0.05)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_100%)] bg-[size:32px_32px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(218,165,32,0.05),rgba(0,0,0,0))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(30,86,49,0.05),rgba(0,0,0,0))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,215,0,0.02)_1px,transparent_1px),linear-gradient(to_right,rgba(255,215,0,0.02)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black_80%,transparent_100%)] bg-[size:32px_32px]" />
       </div>
 
       <div
@@ -242,79 +241,87 @@ export function SolutionsSection() {
 
         <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {solutions.map((solution, index) => (
-            <motion.div
+            <Link
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{
-                transition: { duration: 0.2 },
-              }}
+              href={solution.href}
               className="group relative cursor-pointer overflow-hidden rounded-2xl border border-zinc-800 bg-black/50 backdrop-blur-sm transition-all duration-300 hover:border-yellow-500/50 hover:shadow-[0_0_30px_rgba(234,179,8,0.1)]"
             >
-              <div className="relative h-80 w-full overflow-hidden">
-                <div className="bg-gradient-gold absolute inset-0 opacity-20" />
-                <div className="relative h-full w-full overflow-hidden">
-                  <motion.img
-                    src={solution.avatar}
-                    alt={solution.title}
-                    className="relative h-full w-full origin-top object-cover object-top transition-all duration-500 group-hover:scale-[1.2] group-hover:brightness-110 before:absolute before:inset-0 before:translate-x-[-100%] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-transform before:duration-1000 before:group-hover:translate-x-[100%]"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{
+                  transition: { duration: 0.2 },
+                }}
+                className="relative"
+              >
+                <div className="relative h-80 w-full overflow-hidden">
+                  <div className="bg-gradient-gold absolute inset-0 opacity-20" />
+                  <div className="relative h-full w-full overflow-hidden">
+                    <motion.img
+                      src={solution.avatar}
+                      alt={solution.title}
+                      className="relative h-full w-full origin-top object-cover object-top transition-all duration-500 group-hover:scale-[1.2] group-hover:brightness-110 before:absolute before:inset-0 before:translate-x-[-100%] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-transform before:duration-1000 before:group-hover:translate-x-[100%]"
+                    />
+                  </div>
+                  <motion.div
+                    className="absolute inset-0 -bottom-8 bg-gradient-to-b from-black/0 via-black/70 via-[60%] to-black to-[90%] transition-opacity duration-300 group-hover:opacity-90"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
                   />
+                  <motion.div
+                    className="absolute right-0 bottom-0 left-0 p-6"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    <h3 className="text-2xl font-semibold text-white transition-colors duration-300 group-hover:text-yellow-500">
+                      {solution.title}
+                    </h3>
+                    <p className="text-gradient text-lg font-medium">
+                      {solution.description}
+                    </p>
+                  </motion.div>
                 </div>
-                <motion.div
-                  className="absolute inset-0 -bottom-8 bg-gradient-to-b from-black/0 via-black/70 via-[60%] to-black to-[90%] transition-opacity duration-300 group-hover:opacity-90"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                />
-                <motion.div
-                  className="absolute right-0 bottom-0 left-0 p-6"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <h3 className="text-2xl font-semibold text-white transition-colors duration-300 group-hover:text-yellow-500">
-                    {solution.title}
-                  </h3>
-                  <p className="text-gradient text-lg font-medium">
-                    {solution.description}
-                  </p>
-                </motion.div>
-              </div>
-              <div className="p-6">
-                <motion.p
-                  className="text-lg text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {solution.copy}
-                </motion.p>
-                <ul className="mt-6 space-y-3">
-                  {solution.responsibilities.map((responsibility, idx) => (
-                    <motion.li
-                      key={idx}
-                      className="flex items-center gap-3 text-zinc-300 transition-colors duration-300 group-hover:text-white"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                <div className="relative p-6">
+                  <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+                  <div className="relative">
+                    <motion.p
+                      className="text-lg text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      transition={{ duration: 0.5 }}
                     >
-                      <motion.div
-                        className="bg-gradient-gold flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ArrowRight className="h-3 w-3 cursor-pointer text-black" />
-                      </motion.div>
-                      {responsibility}
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
+                      {solution.copy}
+                    </motion.p>
+                    <ul className="mt-6 space-y-3">
+                      {solution.responsibilities.map((responsibility, idx) => (
+                        <motion.li
+                          key={idx}
+                          className="flex items-center gap-3 text-zinc-300 transition-colors duration-300 group-hover:text-white"
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.5, delay: idx * 0.1 }}
+                        >
+                          <motion.div
+                            className="bg-gradient-gold flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <ArrowRight className="h-3 w-3 cursor-pointer text-black" />
+                          </motion.div>
+                          {responsibility}
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
 

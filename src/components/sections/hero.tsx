@@ -26,18 +26,6 @@ export function HeroSection() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="border-primary/10 bg-primary/5 mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 backdrop-blur-sm"
-          >
-            <span className="text-gradient relative text-sm font-medium">
-              AI-Powered Business Growth
-              <div className="animate-shimmer absolute -inset-px rounded-full bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%]" />
-            </span>
-          </motion.div>
-
           <h1 className="mx-auto max-w-4xl text-center text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
             <motion.span
               initial={{ opacity: 0, y: 20 }}

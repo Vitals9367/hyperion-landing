@@ -7,10 +7,31 @@ import {
   ArrowRight,
   CheckCircle,
   Clock,
+  Zap,
+  Target,
+  BarChart,
 } from "lucide-react";
 import { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
+
+const benefits = [
+  {
+    title: "Personalized AI Strategy",
+    description: "Get a custom plan tailored to your business needs and goals",
+    icon: Target,
+  },
+  {
+    title: "Efficiency Analysis",
+    description: "Identify key areas where AI can boost your productivity",
+    icon: BarChart,
+  },
+  {
+    title: "Implementation Roadmap",
+    description: "Clear steps to integrate AI solutions into your workflow",
+    icon: Zap,
+  },
+];
 
 export function ContactSection() {
   useEffect(() => {
@@ -22,7 +43,7 @@ export function ContactSection() {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-black py-24 lg:py-48 lg:pb-56"
+      className="relative w-full overflow-hidden bg-gradient-to-b from-black via-black to-zinc-950 py-24 lg:py-48 lg:pb-56"
       id="contact"
     >
       {/* Background Effects */}
@@ -33,77 +54,99 @@ export function ContactSection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-3xl">
+          {/* Content */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center"
+            className="flex flex-col gap-8 text-center"
           >
-            <div className="border-primary/10 bg-primary/5 mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-2 backdrop-blur-sm">
-              <Clock className="h-4 w-4 text-yellow-500" />
-              <span className="text-gradient text-base font-medium">
-                Only 10 Spots Available This Month!
-              </span>
+            <div className="space-y-6">
+              <h2 className="text-4xl font-bold text-white lg:text-5xl">
+                Ready to Transform Your Business with{" "}
+                <span className="text-gradient">AI Automation</span>?
+              </h2>
+              <p className="text-lg text-zinc-400">
+                Book a free strategy call to discover how our AI solutions can
+                help you streamline operations, reduce costs, and boost
+                productivity.
+              </p>
             </div>
-            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Eliminate Your <span className="text-gradient">Bottlenecks</span>{" "}
-              with AI
-            </h2>
-            <p className="mx-auto mt-6 text-lg text-zinc-400">
-              Discover how a personalized AI strategy can revolutionize your
-              efficiency and drive sustainable growth.
-            </p>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-12"
-          >
-            <ul className="mt-6 space-y-3">
-              {[
-                "Automate tedious tasks",
-                "Free up hours lost to manual processes",
-                "Gain a competitive edge with personalized AI strategies",
-              ].map((item, idx) => (
-                <motion.li
-                  key={idx}
-                  className="flex items-center gap-3 pl-32 text-zinc-300 transition-colors duration-300 group-hover:text-white"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                >
-                  <motion.div
-                    className="bg-gradient-gold flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.2 }}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold text-white">
+                What You'll Get:
+              </h3>
+              <ul className="space-y-4">
+                {benefits.map((benefit, index) => (
+                  <motion.li
+                    key={benefit.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="flex items-start gap-4"
                   >
-                    <CheckCircle className="h-3 w-3 text-black" />
-                  </motion.div>
-                  <span className="whitespace-nowrap">{item}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
+                    <div className="bg-primary/10 mt-1 rounded-full p-2">
+                      <benefit.icon className="h-5 w-5 text-yellow-500" />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="font-medium text-white">
+                        {benefit.title}
+                      </h4>
+                      <p className="mt-1 text-zinc-400">
+                        {benefit.description}
+                      </p>
+                    </div>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mt-12 flex flex-col items-center gap-4"
-          >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative mx-auto inline-flex items-center gap-3"
+            >
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-yellow-500/20 via-yellow-500/10 to-yellow-500/20 blur-sm" />
+              <div className="relative flex items-center gap-3 rounded-full border border-yellow-500/20 bg-black/50 px-6 py-3 backdrop-blur-sm">
+                <div className="flex items-center gap-2">
+                  <div className="relative">
+                    <div className="absolute -inset-1 animate-pulse rounded-full bg-yellow-500/20" />
+                    <Clock className="relative h-5 w-5 text-yellow-500" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-base font-medium text-white">
+                      Only
+                    </span>
+                    <span className="text-gradient text-base font-bold">
+                      10 Spots
+                    </span>
+                    <span className="text-base font-medium text-white">
+                      Available
+                    </span>
+                  </div>
+                </div>
+                <div className="h-4 w-[1px] bg-yellow-500/20" />
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-yellow-500" />
+                  <span className="text-sm font-medium text-yellow-500">
+                    This Month
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+
             <Button
               data-cal
               data-cal-link="vitalijus/strategy"
               data-cal-config='{"layout":"month_view"}'
               size="lg"
-              className="group bg-gradient-gold hover:shadow-primary/20 relative h-14 cursor-pointer overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              className="group bg-gradient-gold hover:shadow-primary/20 relative mx-auto h-14 cursor-pointer overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <span className="relative z-10 flex cursor-pointer items-center text-base font-semibold">
                 Book Your Free AI Strategy Call
