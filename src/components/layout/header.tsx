@@ -1,15 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight } from "lucide-react";
+import { getCalApi } from "@calcom/embed-react";
 
 const navigation = [
   { name: "Explore Our Solutions", href: "/#solutions" },
-  { name: "Book Your Free Strategy Call", href: "/#contact", isButton: true },
+  {
+    name: "Book Your Free Strategy Call",
+    href: "#",
+    isButton: true,
+    isCal: true,
+  },
 ];
 
 export function Header() {
@@ -17,14 +23,22 @@ export function Header() {
   const pathname = usePathname();
   const isPostsPage = pathname?.startsWith("/posts");
 
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({ namespace: "strategy" });
+      cal("ui", { hideEventTypeDetails: false, layout: "month_view" });
+    })();
+  }, []);
+
   const handleNavigationClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
     e.preventDefault();
-    const element = document.querySelector(href);
+    const id = href.replace(/^\/?#/, ""); // Remove leading /# or # from the href
+    const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView();
+      element.scrollIntoView({ behavior: "smooth" });
     }
     setIsMobileMenuOpen(false);
   };
@@ -48,22 +62,22 @@ export function Header() {
           <div className="flex items-center gap-6">
             {navigation.map((item) =>
               item.isButton ? (
-                <Link
+                <Button
                   key={item.name}
-                  href={item.href}
-                  onClick={(e) => handleNavigationClick(e, item.href)}
+                  size="sm"
+                  data-cal={item.isCal ? "" : undefined}
+                  data-cal-link={item.isCal ? "vitalijus/strategy" : undefined}
+                  data-cal-config={
+                    item.isCal ? '{"layout":"month_view"}' : undefined
+                  }
+                  className="group bg-gradient-gold hover:shadow-primary/20 relative h-10 cursor-pointer overflow-hidden rounded-full px-6 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
                 >
-                  <Button
-                    size="sm"
-                    className="group bg-gradient-gold hover:shadow-primary/20 relative h-10 cursor-pointer overflow-hidden rounded-full px-6 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                  >
-                    <span className="relative z-10 flex cursor-pointer items-center text-sm font-semibold">
-                      {item.name}
-                      <ArrowRight className="ml-2 h-4 w-4 cursor-pointer transition-transform duration-300 group-hover:translate-x-1" />
-                    </span>
-                    <div className="absolute inset-0 z-0 cursor-pointer bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
-                  </Button>
-                </Link>
+                  <span className="relative z-10 flex cursor-pointer items-center text-sm font-semibold">
+                    {item.name}
+                    <ArrowRight className="ml-2 h-4 w-4 cursor-pointer transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                  <div className="absolute inset-0 z-0 cursor-pointer bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
+                </Button>
               ) : (
                 <Link
                   key={item.name}
@@ -104,23 +118,24 @@ export function Header() {
             <div className="container mx-auto space-y-4 px-4 py-6 sm:px-6">
               {navigation.map((item) =>
                 item.isButton ? (
-                  <Link
+                  <Button
                     key={item.name}
-                    href={item.href}
-                    onClick={(e) => handleNavigationClick(e, item.href)}
-                    className="block"
+                    size="sm"
+                    data-cal={item.isCal ? "" : undefined}
+                    data-cal-link={
+                      item.isCal ? "vitalijus/strategy" : undefined
+                    }
+                    data-cal-config={
+                      item.isCal ? '{"layout":"month_view"}' : undefined
+                    }
+                    className="group bg-gradient-gold hover:shadow-primary/20 relative h-10 w-full cursor-pointer overflow-hidden rounded-full px-6 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
                   >
-                    <Button
-                      size="sm"
-                      className="group bg-gradient-gold hover:shadow-primary/20 relative h-10 w-full cursor-pointer overflow-hidden rounded-full px-6 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                    >
-                      <span className="relative z-10 flex cursor-pointer items-center justify-center text-sm font-semibold">
-                        {item.name}
-                        <ArrowRight className="ml-2 h-4 w-4 cursor-pointer transition-transform duration-300 group-hover:translate-x-1" />
-                      </span>
-                      <div className="absolute inset-0 z-0 cursor-pointer bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
-                    </Button>
-                  </Link>
+                    <span className="relative z-10 flex cursor-pointer items-center justify-center text-sm font-semibold">
+                      {item.name}
+                      <ArrowRight className="ml-2 h-4 w-4 cursor-pointer transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                    <div className="absolute inset-0 z-0 cursor-pointer bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
+                  </Button>
                 ) : (
                   <Link
                     key={item.name}

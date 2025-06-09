@@ -6,8 +6,17 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { InteractiveGrid } from "@/components/ui/interactive-grid";
 import { GridPattern, GradientOverlay } from "@/components/ui/grid-pattern";
+import { getCalApi } from "@calcom/embed-react";
+import { useEffect } from "react";
 
 export function HeroSection() {
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({ namespace: "strategy" });
+      cal("ui", { hideEventTypeDetails: false, layout: "month_view" });
+    })();
+  }, []);
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-black">
       {/* Background Effects */}
@@ -62,18 +71,19 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6"
           >
-            <Link href="/#contact">
-              <Button
-                size="lg"
-                className="group bg-gradient-gold hover:shadow-primary/20 relative h-12 cursor-pointer overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              >
-                <span className="relative z-10 flex cursor-pointer items-center text-base font-semibold">
-                  Book Your Free Strategy Call
-                  <ArrowRight className="ml-2 h-5 w-5 cursor-pointer transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-                <div className="absolute inset-0 z-0 cursor-pointer bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
-              </Button>
-            </Link>
+            <Button
+              data-cal
+              data-cal-link="vitalijus/strategy"
+              data-cal-config='{"layout":"month_view"}'
+              size="lg"
+              className="group bg-gradient-gold hover:shadow-primary/20 relative h-12 cursor-pointer overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              <span className="relative z-10 flex cursor-pointer items-center text-base font-semibold">
+                Book Your Free Strategy Call
+                <ArrowRight className="ml-2 h-5 w-5 cursor-pointer transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
+              <div className="absolute inset-0 z-0 cursor-pointer bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_100%] transition-transform duration-300 group-hover:translate-x-full" />
+            </Button>
             <Link href="#solutions">
               <Button
                 variant="outline"
