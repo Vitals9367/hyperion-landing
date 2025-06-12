@@ -6,7 +6,7 @@ import {
   MessageCircle,
   Megaphone,
   PhoneCall,
-  LucideIcon,
+  type LucideIcon,
 } from "lucide-react";
 
 interface Problem {
