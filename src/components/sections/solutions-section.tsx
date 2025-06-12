@@ -7,7 +7,7 @@ import {
   AlertTriangle,
   MessageSquare,
   Users,
-  LucideIcon,
+  type LucideIcon,
 } from "lucide-react";
 
 interface Solution {
