@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import { Toaster } from "sonner";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

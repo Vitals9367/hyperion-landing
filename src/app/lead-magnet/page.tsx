@@ -22,8 +22,11 @@ import { GridPattern, GradientOverlay } from "@/components/ui/grid-pattern";
 import { Footer } from "@/components/layout/footer";
 import { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
+import { useTrackCTA } from "@/hooks/use-track-cta";
 
 export default function LeadMagnetPage() {
+  const { trackCTAClick } = useTrackCTA();
+
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({ namespace: "strategy" });
@@ -229,6 +232,7 @@ export default function LeadMagnetPage() {
                           data-cal-link="vitalijus/strategy"
                           data-cal-config='{"layout":"month_view"}'
                           size="lg"
+                          onClick={() => trackCTAClick("lead-magnet")}
                           className="group bg-gradient-gold hover:shadow-primary/20 relative h-14 cursor-pointer overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
                         >
                           <span className="relative z-10 flex cursor-pointer items-center text-base font-semibold">

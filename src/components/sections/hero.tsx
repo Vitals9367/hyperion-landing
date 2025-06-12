@@ -8,8 +8,11 @@ import { InteractiveGrid } from "@/components/ui/interactive-grid";
 import { GridPattern, GradientOverlay } from "@/components/ui/grid-pattern";
 import { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
+import { useTrackCTA } from "@/hooks/use-track-cta";
 
 export function HeroSection() {
+  const { trackCTAClick } = useTrackCTA();
+
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({ namespace: "strategy" });
@@ -18,7 +21,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-black">
+    <section className="relative w-full overflow-hidden bg-black">
       {/* Background Effects */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <InteractiveGrid />
@@ -28,7 +31,7 @@ export function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto mt-24 flex min-h-screen max-w-screen-xl flex-col items-center justify-center px-4 sm:px-6 md:mt-4 lg:px-8">
+      <div className="relative z-10 mx-auto flex h-[100vh] max-w-screen-xl flex-col items-center justify-center px-4 sm:px-6 md:mt-4 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -76,6 +79,7 @@ export function HeroSection() {
               data-cal-link="vitalijus/strategy"
               data-cal-config='{"layout":"month_view"}'
               size="lg"
+              onClick={() => trackCTAClick("hero")}
               className="group bg-gradient-gold hover:shadow-primary/20 relative h-12 cursor-pointer overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <span className="relative z-10 flex cursor-pointer items-center text-base font-semibold">
@@ -101,7 +105,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7 }}
-          className="mt-24 grid w-full max-w-4xl grid-cols-1 gap-8 rounded-2xl border border-zinc-800/50 bg-black/30 p-8 backdrop-blur-sm sm:grid-cols-3"
+          className="mt-24 hidden w-full max-w-4xl grid-cols-1 gap-8 rounded-2xl border border-zinc-800/50 bg-black/30 p-8 backdrop-blur-sm sm:grid sm:grid-cols-3"
         >
           {[
             { value: "2x", label: "More Qualified Leads" },

@@ -7,9 +7,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { getCalApi } from "@calcom/embed-react";
+import { useTrackCTA } from "@/hooks/use-track-cta";
 
-const navigation = [
-  { name: "Explore Our Solutions", href: "/#solutions" },
+interface NavigationItem {
+  name: string;
+  href: string;
+  isButton?: boolean;
+  isCal?: boolean;
+}
+
+const navigation: NavigationItem[] = [
+  { name: "Explore Our Agents", href: "/#solutions" },
+  // { name: "Case Studies", href: "/#case-studies" },
+  { name: "Team", href: "/#team" },
   {
     name: "Book Your Free Strategy Call",
     href: "#",
@@ -22,6 +32,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isPostsPage = pathname?.startsWith("/posts");
+  const { trackCTAClick } = useTrackCTA();
 
   useEffect(() => {
     (async function () {
@@ -58,7 +69,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-8 lg:flex">
           <div className="flex items-center gap-6">
             {navigation.map((item) =>
               item.isButton ? (
@@ -70,6 +81,7 @@ export function Header() {
                   data-cal-config={
                     item.isCal ? '{"layout":"month_view"}' : undefined
                   }
+                  onClick={() => item.isCal && trackCTAClick("header")}
                   className="group bg-gradient-gold hover:shadow-primary/20 relative h-10 cursor-pointer overflow-hidden rounded-full px-6 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
                 >
                   <span className="relative z-10 flex cursor-pointer items-center text-sm font-semibold">
@@ -94,7 +106,7 @@ export function Header() {
 
         {/* Mobile Menu Button */}
         <button
-          className="rounded-lg p-2 text-zinc-200 hover:bg-white/10 hover:text-white md:hidden"
+          className="rounded-lg p-2 text-zinc-200 hover:bg-white/10 hover:text-white lg:hidden"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? (
@@ -113,7 +125,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 left-0 border-b border-zinc-800/50 bg-black/95 backdrop-blur-lg md:hidden"
+            className="absolute right-0 left-0 border-b border-zinc-800/50 bg-black/95 backdrop-blur-lg lg:hidden"
           >
             <div className="container mx-auto space-y-4 px-4 py-6 sm:px-6">
               {navigation.map((item) =>
@@ -128,6 +140,7 @@ export function Header() {
                     data-cal-config={
                       item.isCal ? '{"layout":"month_view"}' : undefined
                     }
+                    onClick={() => item.isCal && trackCTAClick("header")}
                     className="group bg-gradient-gold hover:shadow-primary/20 relative h-10 w-full cursor-pointer overflow-hidden rounded-full px-6 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
                   >
                     <span className="relative z-10 flex cursor-pointer items-center justify-center text-sm font-semibold">

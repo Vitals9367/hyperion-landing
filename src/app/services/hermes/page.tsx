@@ -19,6 +19,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
+import { useTrackCTA } from "@/hooks/use-track-cta";
 
 const features = [
   {
@@ -51,6 +52,8 @@ const benefits = [
 ];
 
 export default function HermesPage() {
+  const { trackCTAClick } = useTrackCTA();
+
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({ namespace: "strategy" });
@@ -215,6 +218,7 @@ export default function HermesPage() {
                         data-cal-config='{"layout":"month_view"}'
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        onClick={() => trackCTAClick("hermes")}
                         className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 px-8 py-4 text-base font-semibold text-black transition-all duration-300 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)]"
                       >
                         <span className="relative z-10">

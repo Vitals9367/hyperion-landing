@@ -14,6 +14,7 @@ import {
 import { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { useTrackCTA } from "@/hooks/use-track-cta";
 
 const benefits = [
   {
@@ -34,6 +35,8 @@ const benefits = [
 ];
 
 export function ContactSection() {
+  const { trackCTAClick } = useTrackCTA();
+
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({ namespace: "strategy" });
@@ -79,30 +82,32 @@ export function ContactSection() {
               <h3 className="text-2xl font-semibold text-white">
                 What You'll Get:
               </h3>
-              <ul className="space-y-4">
-                {benefits.map((benefit, index) => (
-                  <motion.li
-                    key={benefit.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="flex items-start gap-4"
-                  >
-                    <div className="bg-primary/10 mt-1 rounded-full p-2">
-                      <benefit.icon className="h-5 w-5 text-yellow-500" />
-                    </div>
-                    <div className="text-left">
-                      <h4 className="font-medium text-white">
-                        {benefit.title}
-                      </h4>
-                      <p className="mt-1 text-zinc-400">
-                        {benefit.description}
-                      </p>
-                    </div>
-                  </motion.li>
-                ))}
-              </ul>
+              <div className="flex justify-center">
+                <ul className="space-y-4">
+                  {benefits.map((benefit, index) => (
+                    <motion.li
+                      key={benefit.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="flex items-start gap-4"
+                    >
+                      <div className="bg-primary/10 mt-1 rounded-full p-2">
+                        <benefit.icon className="h-5 w-5 text-yellow-500" />
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-medium text-white">
+                          {benefit.title}
+                        </h4>
+                        <p className="mt-1 text-zinc-400">
+                          {benefit.description}
+                        </p>
+                      </div>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             <motion.div
@@ -131,13 +136,6 @@ export function ContactSection() {
                     </span>
                   </div>
                 </div>
-                <div className="h-4 w-[1px] bg-yellow-500/20" />
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-yellow-500" />
-                  <span className="text-sm font-medium text-yellow-500">
-                    This Month
-                  </span>
-                </div>
               </div>
             </motion.div>
 
@@ -146,6 +144,7 @@ export function ContactSection() {
               data-cal-link="vitalijus/strategy"
               data-cal-config='{"layout":"month_view"}'
               size="lg"
+              onClick={() => trackCTAClick("contact")}
               className="group bg-gradient-gold hover:shadow-primary/20 relative mx-auto h-14 cursor-pointer overflow-hidden rounded-full px-8 text-black transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <span className="relative z-10 flex cursor-pointer items-center text-base font-semibold">
