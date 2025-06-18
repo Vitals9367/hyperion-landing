@@ -88,8 +88,12 @@ export default function LeadGenTemplatePage() {
             transition={{ duration: 0.5 }}
             className="mx-auto max-w-3xl text-center"
           >
-            <h1 className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
-              Automate Your B2B Lead Generation — For Free
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Automate Your{" "}
+              <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 bg-clip-text text-transparent">
+                B2B Lead Generation
+              </span>{" "}
+              — For Free
             </h1>
             <p className="mt-6 text-xl text-zinc-300">
               Use the exact no-code system I use to scrape, enrich, and store
@@ -154,9 +158,11 @@ export default function LeadGenTemplatePage() {
             className="relative mx-auto max-w-3xl text-center"
           >
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+              The{" "}
               <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 bg-clip-text text-transparent">
-                The Difference Between Manual & Automated Lead Generation
-              </span>
+                Difference
+              </span>{" "}
+              Between Manual & Automated Lead Generation
             </h2>
             <p className="mt-6 text-xl text-zinc-300">
               Most founders try to scale manually. Here's why that doesn't work,
@@ -243,8 +249,8 @@ export default function LeadGenTemplatePage() {
               className="mt-12 rounded-xl border border-zinc-800/30 bg-black/20 p-8 text-center"
             >
               <p className="text-lg text-zinc-200">
-                The template gives you everything you need to build this
-                automated system — no coding required.
+                The template gives a head start to build this automated system —
+                no coding required.
               </p>
             </motion.div>
           </motion.div>
@@ -262,7 +268,11 @@ export default function LeadGenTemplatePage() {
             className="mx-auto max-w-3xl text-center"
           >
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Download the Entire Lead Gen System — Instantly
+              Download the{" "}
+              <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 bg-clip-text text-transparent">
+                Entire Lead Gen System
+              </span>{" "}
+              — Instantly
             </h2>
             <p className="mt-4 text-lg text-zinc-400">
               You're getting everything I use to generate leads for clients —
@@ -396,8 +406,12 @@ export default function LeadGenTemplatePage() {
               transition={{ duration: 0.5 }}
               className="mx-auto max-w-3xl text-center"
             >
-              <h2 className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 bg-clip-text text-3xl font-bold tracking-tight text-transparent sm:text-4xl lg:text-5xl">
-                Want an Automated Lead Gen System Built Around Your Business?
+              <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+                Want an{" "}
+                <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 bg-clip-text text-transparent">
+                  Automated Lead Gen System
+                </span>{" "}
+                Built Around Your Business?
               </h2>
               <p className="mt-6 text-xl text-zinc-300">
                 On this free call, I'll help you plan a personalized outbound
@@ -452,11 +466,6 @@ export default function LeadGenTemplatePage() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="mx-auto mt-12 max-w-2xl text-center"
             >
-              <p className="text-lg text-zinc-300">
-                As an AI & automation expert, I'll help you design a system that
-                does the heavy lifting — so you can focus on closing, not
-                chasing.
-              </p>
               <div className="mt-8">
                 <p className="mb-4 text-sm font-medium text-yellow-500/90">
                   Only 10 spots available this week
