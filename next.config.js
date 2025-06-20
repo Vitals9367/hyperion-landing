@@ -14,6 +14,24 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: true,
+  headers: async () => {
+    return [
+      {
+        source: "/b2b-lead-gen-automation-template",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "ALLOWALL",
+          },
+          {
+            key: "Content-Security-Policy",
+            value:
+              "frame-ancestors 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withContentlayer(nextConfig);

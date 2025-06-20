@@ -59,8 +59,8 @@ export default function LeadGenTemplatePage() {
 
     // Trigger file download
     const link = document.createElement("a");
-    link.href = "/downloads/lead-gen-automation-template.zip";
-    link.download = "lead-gen-automation-template.zip";
+    link.href = "/resources/B2B Lead generation template.zip";
+    link.download = "B2B Lead generation template.zip";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -89,19 +89,16 @@ export default function LeadGenTemplatePage() {
             className="mx-auto max-w-3xl text-center"
           >
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Automate Your{" "}
+              Generate{" "}
               <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 bg-clip-text text-transparent">
-                B2B Lead Generation
+                100+ qualified B2B leads
               </span>{" "}
-              — For Free
+              with this template
             </h1>
             <p className="mt-6 text-xl text-zinc-300">
               Use the exact no-code system I use to scrape, enrich, and store
               100+ qualified leads per day using Apollo, Apify, n8n & Google
               Sheets.
-            </p>
-            <p className="mt-4 text-lg text-zinc-400">
-              No devs. No fluff. Just plug it in and go.
             </p>
           </motion.div>
 
@@ -116,7 +113,7 @@ export default function LeadGenTemplatePage() {
               <div className="aspect-video">
                 <iframe
                   className="h-full w-full"
-                  src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                  src="https://www.youtube.com/embed/DghfNJTXRb4?si=LsvjIXjLKCfGoxco"
                   title="Lead Generation Workflow Preview"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -293,25 +290,25 @@ export default function LeadGenTemplatePage() {
                   icon: Settings,
                   title: "Pre-Built n8n Workflow Template",
                   description: "Plug & Play setup",
-                  value: "$1,997 value",
-                },
-                {
-                  icon: Play,
-                  title: "Setup Video Walkthrough",
-                  description: "Follow along, step-by-step",
-                  value: "$997 value",
+                  value: "$697 value",
                 },
                 {
                   icon: FileText,
-                  title: "Cold Email & Follow-Up Scripts",
+                  title: "Setup Instructions",
+                  description: "Step-by-step guide",
+                  value: "$197 value",
+                },
+                {
+                  icon: FileText,
+                  title: "Cold Email Guide",
                   description: "Proven to get replies",
-                  value: "$2,497 value",
+                  value: "$697 value",
                 },
                 {
                   icon: Settings,
                   title: "AI Prompt Pack for Personalization",
                   description: "Make your outreach stand out",
-                  value: "$1,497 value",
+                  value: "$397 value",
                 },
               ].map((item, index) => (
                 <motion.div
@@ -346,7 +343,7 @@ export default function LeadGenTemplatePage() {
               className="mt-8 rounded-xl border border-yellow-500/20 bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 p-8 text-center shadow-lg shadow-yellow-500/10"
             >
               <p className="text-2xl font-bold text-white">
-                Total Value: <span className="text-yellow-500">$6,988</span> —
+                Total Value: <span className="text-yellow-500">$1,988</span> —
                 Yours Free
               </p>
             </motion.div>
@@ -472,7 +469,7 @@ export default function LeadGenTemplatePage() {
                 </p>
                 <Button
                   data-cal
-                  data-cal-link="vitalijus/strategy"
+                  data-cal-link="vitalijus/strategy-lead-gen"
                   data-cal-config='{"layout":"month_view"}'
                   onClick={() => trackCTAClick("lead-magnet")}
                   className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-yellow-500/90 via-yellow-400/90 to-yellow-500/90 px-8 py-4 text-base font-semibold text-black transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(234,179,8,0.2)]"

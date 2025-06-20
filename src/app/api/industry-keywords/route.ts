@@ -1,36 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
 import path from "path";
 import Fuse from "fuse.js";
 
-// Load tags from JSON file
-function loadTags(): Record<string, string> {
+// Cache for tags data to avoid reading file on every request
+let tagsCache: Record<string, string> | null = null;
+let tagsCacheTimestamp: number = 0;
+let fuseInstanceCache: Fuse<{ tag: string; id: string }> | null = null;
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes cache TTL
+
+// Load tags from JSON file asynchronously with caching
+async function loadTags(): Promise<Record<string, string>> {
+  const now = Date.now();
+
+  // Return cached data if still valid
+  if (tagsCache && now - tagsCacheTimestamp < CACHE_TTL) {
+    return tagsCache;
+  }
+
   try {
     const tagsPath = path.join(process.cwd(), "public", "tags.json");
-    const tagsData = readFileSync(tagsPath, "utf-8");
-    return JSON.parse(tagsData);
+    const tagsData = await readFile(tagsPath, "utf-8");
+    const parsedTags = JSON.parse(tagsData);
+
+    // Update cache
+    tagsCache = parsedTags;
+    tagsCacheTimestamp = now;
+
+    // Clear Fuse instance cache to force recreation with new data
+    fuseInstanceCache = null;
+
+    return parsedTags;
   } catch (error) {
     console.error("Error loading tags.json:", error);
+    // Return cached data if available, even if expired
+    if (tagsCache) {
+      console.warn("Using expired cache due to file read error");
+      return tagsCache;
+    }
     return {};
   }
 }
 
-// Find best match for a single keyword using Fuse.js
-function findBestMatch(
-  keyword: string,
-  tags: Record<string, string>,
-  threshold: number = 0.3,
-): { tag: string; id: string; score: number } | null {
-  // Convert tags object to array of objects for Fuse.js
-  const tagsArray = Object.entries(tags).map(([tag, id]) => ({
-    tag,
-    id,
-  }));
-
-  // Configure Fuse.js options
-  const fuseOptions = {
+// Optimized Fuse.js configuration for better performance
+const createFuseInstance = (tagsArray: Array<{ tag: string; id: string }>) => {
+  return new Fuse(tagsArray, {
     keys: ["tag"],
-    threshold: threshold, // 0.0 = perfect match, 1.0 = very loose
+    threshold: 0.3, // Default threshold
     includeScore: true,
     includeMatches: false,
     minMatchCharLength: 2,
@@ -41,14 +57,38 @@ function findBestMatch(
     useExtendedSearch: false,
     ignoreLocation: false,
     ignoreFieldNorm: false,
-  };
+    // Performance optimizations
+    isCaseSensitive: false,
+  });
+};
 
-  const fuse = new Fuse(tagsArray, fuseOptions);
-  const results = fuse.search(keyword);
+// Get or create Fuse instance with caching
+function getFuseInstance(
+  tags: Record<string, string>,
+): Fuse<{ tag: string; id: string }> {
+  if (!fuseInstanceCache) {
+    const tagsArray = Object.entries(tags).map(([tag, id]) => ({
+      tag,
+      id,
+    }));
+    fuseInstanceCache = createFuseInstance(tagsArray);
+  }
+  return fuseInstanceCache;
+}
+
+// Find best match for a single keyword using Fuse.js
+function findBestMatch(
+  keyword: string,
+  fuseInstance: Fuse<{ tag: string; id: string }>,
+  threshold: number = 0.3,
+): { tag: string; id: string; score: number } | null {
+  const results = fuseInstance.search(keyword, {
+    limit: 1, // Only get the best match
+  });
 
   if (results.length > 0) {
     const bestMatch = results[0];
-    if (bestMatch) {
+    if (bestMatch && (bestMatch.score || 0) <= threshold) {
       return {
         tag: bestMatch.item.tag,
         id: bestMatch.item.id,
@@ -58,6 +98,38 @@ function findBestMatch(
   }
 
   return null;
+}
+
+// Process multiple industries in parallel
+async function processIndustries(
+  industryList: string[],
+  tags: Record<string, string>,
+  threshold: number,
+): Promise<
+  Array<{
+    input: string;
+    match: { tag: string; id: string; score: number } | null;
+  }>
+> {
+  // Get cached Fuse instance
+  const fuseInstance = getFuseInstance(tags);
+
+  // Process industries in parallel using Promise.all
+  const promises = industryList.map(async (industry) => {
+    const match = findBestMatch(industry, fuseInstance, threshold);
+    return {
+      input: industry,
+      match: match
+        ? {
+            tag: match.tag,
+            id: match.id,
+            score: Math.round((1 - match.score) * 100) / 100, // Convert Fuse.js score to similarity (0-1)
+          }
+        : null,
+    };
+  });
+
+  return Promise.all(promises);
 }
 
 export async function GET(request: NextRequest) {
@@ -87,8 +159,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Load tags
-    const tags = loadTags();
+    // Load tags asynchronously
+    const tags = await loadTags();
 
     if (Object.keys(tags).length === 0) {
       return NextResponse.json(
@@ -97,26 +169,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Find matches for each industry
-    const results = industryList.map((industry) => {
-      const match = findBestMatch(industry, tags, threshold);
-      return {
-        input: industry,
-        match: match
-          ? {
-              tag: match.tag,
-              id: match.id,
-              score: Math.round((1 - match.score) * 100) / 100, // Convert Fuse.js score to similarity (0-1)
-            }
-          : null,
-      };
-    });
+    // Process industries in parallel
+    const results = await processIndustries(industryList, tags, threshold);
 
     return NextResponse.json({
       success: true,
       data: results,
       total: results.length,
       threshold,
+      cacheInfo: {
+        cached: tagsCache !== null,
+        cacheAge: tagsCacheTimestamp ? Date.now() - tagsCacheTimestamp : null,
+      },
     });
   } catch (error) {
     console.error("Error in industry keywords API:", error);
