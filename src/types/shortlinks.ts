@@ -16,19 +16,24 @@ export const leadMagnets: Record<
   }
 > = {
   worksheet: {
+    // Webpage
     headline: "Unlock Your Potential",
     subheadline: "Get our exclusive worksheet to find your AI niche!",
     button: "DOWNLOAD FREE WORKSHEET",
     modalHeadline: "Get Instant Access",
-    resource: "/downloads/your-file.pdf",
-    emailCopy: "Here's your requested resource: Unlock Your Potential",
+    subtitle: "Founder, Hyperion AI",
+    name: "Vitalijus Alšauskas",
+    image: "/profile.png",
+
+    // Email
     subject: "Your AI Worksheet from Hyperion AI",
+    emailCopy: "Here's your requested resource: Unlock Your Potential",
     description:
       "A worksheet to help you discover your unique AI business niche.",
     resourceName: "AI Niche Worksheet",
-    image: "/profile.png",
-    name: "Vitalijus Alšauskas",
-    subtitle: "Founder, Hyperion AI",
+
+    // Download link
+    resource: "/downloads/your-file.pdf",
   },
   // Add more lead magnets here
 };

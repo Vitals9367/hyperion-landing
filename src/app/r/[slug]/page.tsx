@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
 import { shortLinks } from "@/types/shortlinks";
 
-export default function ShortLinkPage({
+export default async function ShortLinkPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const url = shortLinks[slug];
 
   if (url) {
